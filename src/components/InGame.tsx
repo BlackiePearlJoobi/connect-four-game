@@ -69,6 +69,7 @@ const InGame = () => {
   useEffect(() => {
     console.log("Updated pieceColors:", pieceColors);
   }, [pieceColors]);
+
   /*
   useEffect(() => {
     console.log("lastPlacedId:", lastPlacedId);
@@ -86,6 +87,7 @@ const InGame = () => {
     console.log("starter:", starterRef);
   }, [starter]);
 */
+
   useEffect(() => {
     console.log("ConnectedPieces:", connectedPieces);
   }, [connectedPieces]);
@@ -103,7 +105,7 @@ const InGame = () => {
         color={color}
       >
         <img
-          src={`/assets/images/counter-${color}-small.svg`}
+          src={`${basePath}/assets/images/counter-${color}-small.svg`}
           className="piece-image"
         />
       </div>
@@ -432,6 +434,9 @@ const InGame = () => {
     setIsTimerRunning(true);
   };
 
+  // base path for images
+  const basePath = import.meta.env.BASE_URL;
+
   return (
     <div className="ingame-background">
       <section className="ingame-container">
@@ -446,7 +451,7 @@ const InGame = () => {
             MENU
           </button>
           <img
-            src="assets/images/logo.svg"
+            src={`${basePath}/assets/images/logo.svg`}
             alt="Game logo"
             className="ingame-logo"
           />
@@ -457,7 +462,7 @@ const InGame = () => {
         <div className="scoreboards-container">
           <div className="score-container left-score-container">
             <img
-              src={`/assets/images/${opponent !== "human" ? "you.svg" : "player-one.svg"}`}
+              src={`${basePath}/assets/images/${opponent !== "human" ? "you.svg" : "player-one.svg"}`}
               alt={`${opponent !== "human" ? "your icon" : "player 1 icon"}`}
               className="player-icon icon-left"
             />
@@ -476,7 +481,7 @@ const InGame = () => {
               <span className="score">{rightScore}</span>
             </div>
             <img
-              src={`/assets/images/${opponent !== "human" ? "cpu.svg" : "player-two.svg"}`}
+              src={`${basePath}/assets/images/${opponent !== "human" ? "cpu.svg" : "player-two.svg"}`}
               alt={`${opponent !== "human" ? "CPU icon" : "player 2 icon"}`}
               className="player-icon icon-right"
             />
@@ -530,7 +535,7 @@ const InGame = () => {
                 >
                   {isHovered[col] && !hasLeftWon && !hasRightWon && !isDraw && (
                     <img
-                      src={`assets/images/marker-${isLeftTurn ? "red" : "yellow"}.svg`}
+                      src={`${basePath}/assets/images/marker-${isLeftTurn ? "red" : "yellow"}.svg`}
                       className="marker"
                     ></img>
                   )}

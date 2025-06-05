@@ -9,6 +9,8 @@ function App() {
 
   const [isRuleClicked, setIsRuleClicked] = useState(false);
 
+  const basePath = import.meta.env.BASE_URL;
+
   return (
     <div>
       {isInMainMenu && (
@@ -16,7 +18,7 @@ function App() {
           <section className="main-menu-container">
             <div className="logo-container">
               <img
-                src="assets/images/logo.svg"
+                src={`${basePath}/assets/images/logo.svg`}
                 alt="Game logo"
                 className="main-menu-logo"
               />
@@ -32,7 +34,7 @@ function App() {
               >
                 <span className="button-label">PLAY VS CPU &#40;EASY&#41;</span>
                 <img
-                  src="/assets/images/player-vs-cpu.svg"
+                  src={`${basePath}/assets/images/player-vs-cpu.svg`}
                   alt="player and cpu"
                   className="button-icon"
                 ></img>
@@ -49,7 +51,7 @@ function App() {
                   PLAY VS CPU &#40;MEDIUM&#41;
                 </span>
                 <img
-                  src="/assets/images/player-vs-cpu.svg"
+                  src={`${basePath}/assets/images/player-vs-cpu.svg`}
                   alt="player and cpu"
                   className="button-icon"
                 ></img>
@@ -64,7 +66,7 @@ function App() {
               >
                 <span className="button-label">PLAY VS PLAYER</span>
                 <img
-                  src="/assets/images/player-vs-player.svg"
+                  src={`${basePath}/assets/images/player-vs-player.svg`}
                   alt="player and player"
                   className="button-icon"
                 ></img>

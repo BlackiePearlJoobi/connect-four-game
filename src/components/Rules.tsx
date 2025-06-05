@@ -33,7 +33,7 @@ const Rules = () => {
         </ol>
         <button className="check-button">
           <img
-            src={`/assets/images/${
+            src={`${import.meta.env.BASE_URL}/assets/images/${
               isHovered ? "icon-check-hover.svg" : "icon-check.svg"
             }`}
             alt="check icon"
