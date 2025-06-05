@@ -1,0 +1,108 @@
+.rules-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  background-color: var(--purple);
+
+  .rules-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 335px;
+    height: 586px;
+    border: 3px solid var(--black);
+    border-bottom: 10px solid var(--black);
+    border-radius: 40px;
+    padding: 30px 20px 60px;
+    background-color: var(--white);
+    display: flex;
+    flex-direction: column;
+
+    .main-header {
+      font-weight: var(--font-weight-heading);
+      font-size: var(--font-size-heading-l);
+      line-height: var(--line-height-heading-l);
+      text-align: center;
+      margin-bottom: 29px;
+    }
+
+    .sub-header {
+      font-weight: var(--font-weight-heading);
+      font-size: var(--font-size-heading-s);
+      line-height: var(--line-height-heading-s);
+      color: var(--purple);
+      margin-bottom: 16px;
+    }
+
+    .objective-description {
+      font-weight: var(--font-weight-body);
+      font-size: var(--font-size-body);
+      line-height: var(--line-height-body);
+      color: var(--black);
+      margin-bottom: 33px;
+    }
+
+    .rule-set {
+      list-style: none;
+      padding-left: 0;
+      counter-reset: rule-counter;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+
+      .rule-description {
+        counter-increment: rule-counter;
+        font-weight: var(--font-weight-body);
+        font-size: var(--font-size-body);
+        line-height: var(--line-height-body);
+        color: var(--black);
+        padding-left: 19px;
+        position: relative;
+
+        &::before {
+          content: counter(rule-counter);
+          font-weight: var(--font-weight-heading);
+          font-size: var(--font-size-heading-xs);
+          line-height: var(--line-height-heading-xs);
+          position: absolute;
+          left: 0;
+        }
+      }
+    }
+
+    .check-button {
+      position: absolute;
+      bottom: -32px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 64px;
+      height: 64px;
+      background-color: transparent;
+      border: none;
+      cursor: pointer;
+
+      .check-icon {
+        width: 100%;
+        height: 100%;
+      }
+    }
+  }
+}
+
+@media (min-width: 641px) {
+  .rules-background {
+    .rules-container {
+      width: 480px;
+      height: 537px;
+      padding: 30px 34px 54px;
+
+      .objective-description {
+        margin-bottom: 29px;
+      }
+    }
+  }
+}

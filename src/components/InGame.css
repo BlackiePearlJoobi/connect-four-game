@@ -1,0 +1,563 @@
+@keyframes drop {
+  0% {
+    transform: translateY(-100vh);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.ingame-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  background-color: var(--purple);
+  justify-content: center;
+
+  .ingame-container {
+    z-index: 2;
+    position: relative;
+    width: 335px;
+    place-items: center;
+    margin-top: 5%;
+
+    .nav-container {
+      width: 100%;
+      height: 40px;
+      margin: 0 20px 30px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      .nav-button {
+        width: 108px;
+        height: 39px;
+        border: none;
+        border-radius: 20px;
+        background-color: var(--dark-purple);
+        font-weight: var(--font-weight-heading);
+        font-size: var(--font-size-heading-xs);
+        line-height: var(--line-height-heading-xs);
+        color: var(--white);
+        cursor: pointer;
+
+        &:hover {
+          background-color: var(--red);
+        }
+      }
+
+      .ingame-logo {
+        width: 40px;
+        height: 40px;
+      }
+    }
+
+    .scoreboards-container {
+      margin-bottom: 30px;
+      display: flex;
+      flex-direction: row;
+      gap: 20px;
+
+      .score-container {
+        height: 81px;
+        position: relative;
+
+        .player-icon {
+          position: absolute;
+          width: 48px;
+          height: 48px;
+          top: 14px;
+        }
+
+        .icon-left {
+          left: -21px;
+        }
+
+        .icon-right {
+          right: -21px;
+        }
+
+        .name-score-container {
+          width: 150px;
+          height: 81px;
+          background-color: var(--white);
+          border: 3px solid var(--black);
+          border-bottom: 10px solid var(--black);
+          border-radius: 20px;
+          padding: 10px 35px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          gap: 1.5px;
+
+          .player-name {
+            font-weight: var(--font-weight-heading);
+            font-size: var(--font-size-heading-xs);
+            line-height: var(--line-height-heading-xs);
+          }
+
+          .score {
+            font-weight: var(--font-weight-heading);
+            font-size: 32px;
+            line-height: var(--line-height-heading-m);
+          }
+        }
+      }
+    }
+
+    .game-board-container {
+      position: relative;
+      width: 336px;
+      height: 320px;
+      border-radius: 20px;
+      box-sizing: content-box;
+
+      .game-board-back {
+        z-index: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url(/assets/images/board-layer-black-small.svg);
+        background-repeat: no-repeat;
+        /* visibility: hidden; */
+      }
+
+      .game-board-middle {
+        z-index: 1;
+        position: absolute;
+        top: 3%;
+        left: 2%;
+        width: 96%;
+        height: 88%;
+        display: flex;
+        flex-wrap: wrap;
+        column-gap: 4.65px;
+        row-gap: 0;
+        /* outline: 2px solid red; */
+
+        .square {
+          /* outline: 1px solid yellow; */
+          position: relative;
+          width: 13%;
+          height: 16%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+
+          .piece {
+            width: 48px;
+            height: 48px;
+            animation: flip 0.5s linear;
+
+            .piece-image {
+              width: 100%;
+              height: 100%;
+            }
+          }
+
+          .drop-animation {
+            animation: drop 0.2s ease-out;
+          }
+
+          .circle {
+            z-index: 1;
+            position: absolute;
+            top: 41%;
+            left: 50%;
+            width: 52%;
+            height: 45%;
+            border-radius: 50%;
+            border: 7px solid white;
+            transform: translate(-50%, -50%);
+            opacity: 0;
+            animation: fadeIn 0.5s linear forwards;
+            animation-delay: 0.2s;
+          }
+        }
+      }
+
+      .game-board-front {
+        /* display: none; */
+        /* visibility: hidden; */
+        /* outline: 1px solid orange; */
+        z-index: 2;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url(/assets/images/board-layer-white-small.svg);
+        background-repeat: no-repeat;
+      }
+
+      .game-board-surface {
+        /* outline: 1px dotted pink; */
+        z-index: 4;
+        position: absolute;
+        top: 3%;
+        left: 2%;
+        width: 96%;
+        height: 88%;
+        display: flex;
+        flex-wrap: wrap;
+        column-gap: 4.84px;
+
+        .column {
+          /* outline: 2px solid green; */
+          width: 13%;
+          height: 100%;
+          display: flex;
+          justify-content: center;
+
+          .marker {
+            width: 30px;
+            height: 26px;
+            margin-top: -37px;
+          }
+        }
+      }
+    }
+
+    .player-turn {
+      position: relative;
+      z-index: 3;
+      width: 191px;
+      height: 158px;
+      padding: 35px 30px 16px;
+      background-size: cover;
+      background-repeat: no-repeat;
+      border-bottom-left-radius: 20px;
+      border-bottom-right-radius: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2px;
+      margin-top: -30px;
+
+      .current-player {
+        font-weight: var(--font-weight-heading);
+        font-size: var(--font-size-heading-xs);
+        line-height: var(--line-height-heading-xs);
+        width: 129px;
+        text-align: center;
+      }
+
+      .timer {
+        font-weight: var(--font-weight-heading);
+        font-size: var(--font-size-heading-l);
+        line-height: var(--line-height-heading-l);
+      }
+
+      .yellow {
+        color: var(--orange);
+        -webkit-text-stroke: 1px var(--white);
+      }
+
+      .red {
+        color: #fe2828;
+        -webkit-text-stroke: 1px var(--white);
+      }
+    }
+
+    .left-turn {
+      background-image: url(/assets/images/turn-background-red.svg);
+      color: var(--white);
+    }
+
+    .right-turn {
+      background-image: url(/assets/images/turn-background-yellow.svg);
+      color: var(--black);
+    }
+
+    .result-container {
+      position: relative;
+      z-index: 3;
+      width: 285px;
+      height: 170px;
+      background-color: var(--white);
+      border: 3px solid var(--black);
+      border-bottom: 10px solid var(--black);
+      border-radius: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin-top: -25px;
+
+      .player-name {
+        font-weight: var(--font-weight-heading);
+        font-size: var(--font-size-heading-xs);
+        line-height: var(--line-height-heading-xs);
+      }
+
+      .result {
+        font-weight: var(--font-weight-heading);
+        font-size: var(--font-size-heading-l);
+        line-height: var(--line-height-heading-l);
+      }
+
+      .restart-button-result {
+        font-weight: var(--font-weight-heading);
+        font-size: var(--font-size-heading-xs);
+        line-height: var(--line-height-heading-xs);
+        background-color: var(--dark-purple);
+        color: var(--white);
+        width: 130px;
+        height: 39px;
+        border: none;
+        border-radius: 20px;
+        cursor: pointer;
+      }
+    }
+  }
+
+  .underlay {
+    z-index: 1;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100vw;
+    height: calc(100vh - 500px);
+    background-color: var(--dark-purple);
+    border-top-left-radius: 75px;
+    border-top-right-radius: 75px;
+  }
+
+  .left-wins {
+    background-color: var(--red);
+  }
+
+  .right-wins {
+    background-color: var(--yellow);
+  }
+}
+
+@media (min-width: 641px) {
+  .ingame-background {
+    .ingame-container {
+      width: 633px;
+      margin-top: 30px;
+
+      .nav-container {
+        .nav-button-menu {
+          width: 86px;
+          margin-right: 22px;
+        }
+
+        .ingame-logo {
+          width: 52px;
+          height: 52px;
+        }
+      }
+
+      .scoreboards-container {
+        height: 100px;
+        gap: 40px;
+
+        .score-container {
+          height: 100%;
+
+          .player-icon {
+            top: 26px;
+          }
+
+          .name-score-container {
+            width: 272px;
+            height: 100%;
+            flex-direction: row;
+
+            .player-name {
+              font-weight: var(--font-weight-heading);
+              font-size: var(--font-size-heading-s);
+              line-height: var(--line-height-heading-s);
+            }
+
+            .score {
+              font-weight: var(--font-weight-heading);
+              font-size: var(--font-size-heading-l);
+              line-height: var(--line-height-heading-l);
+            }
+          }
+        }
+
+        .left-score-container {
+          .name-score-container {
+            .player-name {
+              position: absolute;
+              left: 44px;
+            }
+
+            .score {
+              position: absolute;
+              right: 40px;
+            }
+          }
+        }
+
+        .right-score-container {
+          .name-score-container {
+            flex-direction: row-reverse;
+
+            .player-name {
+              position: absolute;
+              right: 44px;
+            }
+
+            .score {
+              position: absolute;
+              left: 40px;
+            }
+          }
+        }
+      }
+
+      .game-board-container {
+        width: 632px;
+        height: 600px;
+
+        .game-board-back {
+          background-image: url(/assets/images/board-layer-black-large.svg);
+          /* visibility: hidden; */
+        }
+
+        .game-board-middle {
+          top: 3%;
+          left: 1.5%;
+          width: 101%;
+          height: 88%;
+          column-gap: 5px;
+          row-gap: 0;
+          /* outline: 1px solid red; */
+
+          .square {
+            /* outline: 1px solid yellow; */
+
+            .piece {
+              width: 90px;
+              height: 90px;
+            }
+
+            .circle {
+              top: 43%;
+              left: 51%;
+              width: 45%;
+              height: 40%;
+            }
+          }
+        }
+
+        .game-board-front {
+          /* visibility: hidden; */
+          /* outline: 1px solid orange; */
+          background-image: url(/assets/images/board-layer-white-large.svg);
+        }
+
+        .game-board-surface {
+          column-gap: 9.12px;
+          .column {
+            .marker {
+              width: 42px;
+              height: 38px;
+              margin-top: -45px;
+            }
+          }
+        }
+      }
+
+      .player-turn {
+        margin-top: -55px;
+      }
+
+      .result-container {
+        margin-top: -55px;
+      }
+    }
+
+    .underlay {
+      height: calc(100vh - 775px);
+      border-top-left-radius: 50px;
+      border-top-right-radius: 50px;
+    }
+  }
+}
+
+@media (min-width: 1025px) {
+  .ingame-background {
+    .ingame-container {
+      width: 1000px;
+      margin-top: 50px;
+
+      .scoreboards-container {
+        width: 100%;
+        position: absolute;
+        top: 296px;
+        justify-content: space-between;
+        gap: 0;
+
+        .score-container {
+          .player-icon {
+            width: 54px;
+            height: 59px;
+            top: -27px;
+          }
+
+          .icon-left {
+            left: 55px;
+          }
+
+          .icon-right {
+            right: 55px;
+          }
+
+          .name-score-container {
+            width: 163px;
+            height: 187px;
+            flex-direction: column;
+            padding-top: 40px;
+
+            .player-name {
+              position: unset;
+            }
+
+            .score {
+              position: unset;
+            }
+          }
+        }
+      }
+
+      .game-board-container {
+        margin-top: 50px;
+
+        .game-board-surface {
+          .column {
+            .marker {
+              width: 45px;
+              height: 40px;
+              margin-top: -48px;
+            }
+          }
+        }
+      }
+    }
+
+    .underlay {
+      height: calc(100vh - 685px);
+    }
+  }
+}

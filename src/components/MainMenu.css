@@ -1,0 +1,141 @@
+.main-menu-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  background-color: var(--purple);
+
+  .main-menu-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 335px;
+    height: 500px;
+    display: flex;
+    flex-direction: column;
+    gap: 60px;
+
+    .logo-container {
+      width: 52px;
+      height: 52px;
+      margin: 0 auto;
+
+      .main-menu-logo {
+        display: block;
+        width: 100%;
+        height: 100%;
+      }
+    }
+
+    .button-container {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+
+      .menu-button {
+        width: 100%;
+        height: 85px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        border: 3px solid var(--black);
+        border-bottom: 10px solid var(--black);
+        border-radius: 20px;
+        padding: 20px;
+        cursor: pointer;
+
+        &:hover {
+          border: 3px solid var(--dark-purple);
+          border-bottom: 10px solid var(--dark-purple);
+        }
+
+        .button-label {
+          font-family: var(--font-primary);
+          font-weight: var(--font-weight-heading);
+          font-size: var(--font-size-heading-m);
+          line-height: var(--line-height-heading-m);
+          text-align: start;
+        }
+
+        .button-icon {
+          display: block;
+          width: 82px;
+          height: 46px;
+        }
+      }
+
+      .vsEasyButton {
+        background-color: var(--orange);
+
+        .button-label {
+          color: var(--white);
+        }
+      }
+
+      .vsMediumButton {
+        background-color: var(--red);
+
+        .button-label {
+          color: var(--white);
+        }
+      }
+
+      .vsPlayerButton {
+        background-color: var(--yellow);
+      }
+    }
+  }
+
+  footer {
+    position: absolute;
+    bottom: 0;
+    padding: 1rem;
+
+    .attribution {
+      font-size: 0.875rem;
+      text-align: center;
+      margin-top: 1rem;
+
+      a {
+        text-decoration: none;
+        color: #d1c2ff;
+
+        &:hover {
+          color: #f0fc04;
+        }
+
+        &:visited {
+          color: #d693ff;
+        }
+      }
+    }
+  }
+}
+
+@media (min-width: 641px) {
+  #main-menu-background {
+    background-color: var(--dark-purple);
+
+    #main-menu-container {
+      background-color: var(--purple);
+      width: 480px;
+      height: 537px;
+      border: 3px solid var(--black);
+      border-bottom: 10px solid var(--black);
+      border-radius: 40px;
+      padding: 70px 40px 60px;
+      gap: 79px;
+    }
+
+    footer {
+      .attribution {
+        color: #1b0214;
+      }
+    }
+  }
+}
