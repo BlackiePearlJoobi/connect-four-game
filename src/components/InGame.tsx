@@ -8,6 +8,7 @@ const InGame = () => {
   const { opponent } = useGameContext();
   const [starter, setStarter] = useState("left");
   const [isLeftTurn, setIsLeftTurn] = useState(true);
+  // const [isCPUTurn, setIsCPUTurn] = useState(false);
   const [hasLeftWon, setHasLeftWon] = useState(false);
   const [hasRightWon, setHasRightWon] = useState(false);
   const [isDraw, setIsDraw] = useState(false);
@@ -24,8 +25,6 @@ const InGame = () => {
     6: false,
     7: false,
   }); // for showing the column marker
-
-  const [lastPlacedId, setLastPlacedId] = useState<string | null>(null);
 
   const [hasAppeared, setHasAppeared] = useState<{ [key: string]: boolean }>(
     {},
@@ -57,10 +56,12 @@ const InGame = () => {
     7: 0,
   }); // each column's current "height"
 
+  const [lastPlacedId, setLastPlacedId] = useState<string | null>(null);
+
   const [connectedPieces, setConnectedPieces] = useState<string[]>([]); // for showing white circles
 
   const [timer, setTimer] = useState(15);
-  const [isTimerRunning, setIsTimerRunning] = useState(true);
+  const [isTimerRunning, setIsTimerRunning] = useState(false);
 
   useEffect(() => {
     console.log("Updated columnLevels:", columnLevels);
@@ -76,7 +77,7 @@ const InGame = () => {
   }, [lastPlacedId]);
 
   useEffect(() => {
-    console.log("Updated isLeftTurn:", isLeftTurnRef);
+    console.log("Updated isLeftTurn:", isLeftTurn);
   }, [isLeftTurn]);
 
   useEffect(() => {
@@ -84,13 +85,13 @@ const InGame = () => {
   }, [hasLeftWon]);
 
   useEffect(() => {
-    console.log("starter:", starterRef);
+    console.log("starter:", starter);
   }, [starter]);
-*/
 
   useEffect(() => {
     console.log("ConnectedPieces:", connectedPieces);
   }, [connectedPieces]);
+  */
 
   // piece components
   type PieceProps = {
@@ -162,23 +163,9 @@ const InGame = () => {
       if (isLeftTurn) {
         setHasLeftWon(true);
         setLeftScore((prev) => prev + 1);
-        if (starter === "left") {
-          setStarter("right");
-          setIsLeftTurn(false);
-        } else {
-          setStarter("left");
-          setIsLeftTurn(true);
-        }
       } else {
         setHasRightWon(true);
         setRightScore((prev) => prev + 1);
-        if (starter === "left") {
-          setStarter("right");
-          setIsLeftTurn(false);
-        } else {
-          setStarter("left");
-          setIsLeftTurn(true);
-        }
       }
       return;
     }
@@ -293,7 +280,7 @@ const InGame = () => {
   const checkLeftDiagonal = (id: string): boolean => {
     const row = parseInt(id.charAt(0));
     const column = parseInt(id.charAt(1));
-    if (row + column >= 10 || row + column <= 4) return false;
+    if (row + column >= 11 || row + column <= 4) return false;
     let currentRow = row + column === 10 ? 3 : row + column === 9 ? 2 : 1;
     let currentColumn =
       row + column === 5
@@ -356,26 +343,192 @@ const InGame = () => {
       if (!isLeftTurn) {
         setHasLeftWon(true);
         setLeftScore((prev) => prev + 1);
-        if (starter === "left") {
-          setStarter("right");
-          setIsLeftTurn(false);
-        } else {
-          setStarter("left");
-          setIsLeftTurn(true);
-        }
       } else {
         setHasRightWon(true);
         setRightScore((prev) => prev + 1);
-        if (starter === "left") {
-          setStarter("right");
-          setIsLeftTurn(false);
-        } else {
-          setStarter("left");
-          setIsLeftTurn(true);
-        }
       }
     }
   }, [timer, isTimerRunning]);
+
+  // CPU movement
+  useEffect(() => {
+    if (opponent === "CPU_easy" && !isLeftTurn) {
+      setTimeout(cpuEasyMove, 500);
+    }
+  }, [isLeftTurn, starter]);
+
+  const cpuEasyMove = (): void => {
+    let targetCol: number | null = null;
+
+    if (lastPlacedId === null) {
+      // if it's the initial move of the game, select the middle column
+      targetCol = 4;
+    } else {
+      for (let i = 1; i <= 7; i++) {
+        if (columnLevels[i] === 6) continue;
+        const targetSquareId = ((columnLevels[i] + 1) * 10 + i).toString();
+
+        if (
+          // check if it can connect four pieces
+          simulateRow(targetSquareId, "yellow") ||
+          simulateColumn(targetSquareId, "yellow") ||
+          simulateRightDiagonal(targetSquareId, "yellow") ||
+          simulateLeftDiagonal(targetSquareId, "yellow") ||
+          // check if the opponent (human) will connect four next turn
+          simulateRow(targetSquareId, "red") ||
+          simulateColumn(targetSquareId, "red") ||
+          simulateRightDiagonal(targetSquareId, "red") ||
+          simulateLeftDiagonal(targetSquareId, "red")
+        ) {
+          targetCol = i;
+          break;
+        }
+      }
+    }
+    // console.log("targetCol:", targetCol);
+
+    // default: select a random column
+    if (!targetCol) {
+      do {
+        targetCol = getRandomInt(1, 7);
+      } while (columnLevels[targetCol] === 6);
+    }
+
+    updatePieceColors(targetCol);
+    updateLastPlacedId(targetCol);
+    updateColumnLevels(targetCol);
+    updateHasAppeared(targetCol);
+  };
+
+  const getRandomInt = (min: number, max: number): number =>
+    Math.floor(Math.random() * (max - min + 1)) + min;
+
+  const simulateRow = (id: string, color: Color): boolean => {
+    const row = parseInt(id.charAt(0));
+    let currentColumn = 1;
+    let series = 0;
+
+    const pieceColorsTemp: { [key: string]: Color } = { ...pieceColors };
+    pieceColorsTemp[id] = color;
+
+    while (currentColumn <= 7) {
+      const currentSquareId = `${row}${currentColumn}`;
+
+      if (pieceColorsTemp[currentSquareId] === color) {
+        series++;
+        if (series === 4) {
+          return true;
+        }
+      } else {
+        series = 0;
+      }
+
+      currentColumn++;
+    }
+
+    return false;
+  };
+
+  const simulateColumn = (id: string, color: Color): boolean => {
+    const column = parseInt(id.charAt(1));
+    let currentRow = parseInt(id.charAt(0));
+    const endRow = currentRow - 3;
+    let series = 0;
+
+    const pieceColorsTemp: { [key: string]: Color } = { ...pieceColors };
+    pieceColorsTemp[id] = color;
+
+    while (currentRow >= endRow) {
+      const currentSquareId = `${currentRow}${column}`;
+
+      if (pieceColorsTemp[currentSquareId] === color) {
+        series++;
+        if (series === 4) {
+          return true;
+        }
+      } else {
+        series = 0;
+      }
+
+      currentRow--;
+    }
+
+    return false;
+  };
+
+  const simulateRightDiagonal = (id: string, color: Color): boolean => {
+    const row = parseInt(id.charAt(0));
+    const column = parseInt(id.charAt(1));
+    if (row - column >= 3 || row - column <= -4) return false;
+    let currentRow = row - column === 2 ? 3 : row - column === 1 ? 2 : 1;
+    let currentColumn =
+      row - column >= 0
+        ? 1
+        : row - column === -1
+          ? 2
+          : row - column === -2
+            ? 3
+            : 4;
+    let series = 0;
+
+    const pieceColorsTemp: { [key: string]: Color } = { ...pieceColors };
+    pieceColorsTemp[id] = color;
+
+    while (currentRow <= 6 && currentColumn <= 7) {
+      const currentSquareId = `${currentRow}${currentColumn}`;
+
+      if (pieceColorsTemp[currentSquareId] === color) {
+        series++;
+        if (series === 4) {
+          return true;
+        }
+      } else {
+        series = 0;
+      }
+
+      currentRow++;
+      currentColumn++;
+    }
+
+    return false;
+  };
+
+  const simulateLeftDiagonal = (id: string, color: Color): boolean => {
+    const row = parseInt(id.charAt(0));
+    const column = parseInt(id.charAt(1));
+    if (row + column >= 11 || row + column <= 4) return false;
+    let currentRow = row + column === 10 ? 3 : row + column === 9 ? 2 : 1;
+    let currentColumn =
+      row + column === 5
+        ? 4
+        : row + column === 6
+          ? 5
+          : row + column === 7
+            ? 6
+            : 7;
+    let series = 0;
+
+    const pieceColorsTemp: { [key: string]: Color } = { ...pieceColors };
+    pieceColorsTemp[id] = color;
+
+    while (currentRow <= 6 && currentColumn >= 1) {
+      const currentSquareId = `${currentRow}${currentColumn}`;
+
+      if (pieceColorsTemp[currentSquareId] === color) {
+        series++;
+        if (series === 4) {
+          return true;
+        }
+      } else {
+        series = 0;
+      }
+
+      currentRow++;
+      currentColumn--;
+    }
+
+    return false;
+  };
 
   // events for nav buttons
   const continueGame = () => {
@@ -400,8 +553,16 @@ const InGame = () => {
       7: 0,
     });
     setPieceColors({});
+    setLastPlacedId(null);
     setConnectedPieces([]);
     setHasAppeared({});
+    if (starter === "left") {
+      setStarter("right");
+      setIsLeftTurn(false);
+    } else {
+      setStarter("left");
+      setIsLeftTurn(true);
+    }
     setHasLeftWon(false);
     setHasRightWon(false);
     setIsDraw(false);
@@ -421,6 +582,7 @@ const InGame = () => {
       7: 0,
     });
     setPieceColors({});
+    setLastPlacedId(null);
     setConnectedPieces([]);
     setHasAppeared({});
     setStarter("left");
@@ -434,7 +596,7 @@ const InGame = () => {
     setIsTimerRunning(true);
   };
 
-  // base path for images
+  // base path for the images
   const basePath = import.meta.env.BASE_URL;
 
   return (
