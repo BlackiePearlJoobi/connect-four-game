@@ -45,6 +45,6 @@
 body {
   font-family: var(--font-primary);
   max-width: 100%; /* Prevents overflow */
-  min-height: 100vh; /* Ensures the body takes up the full viewport height */
+  min-height: 100svh; /* Ensures the body takes up the full viewport height */
   place-items: center;
 }

@@ -14,7 +14,6 @@ const InGame = () => {
   const [leftScore, setLeftScore] = useState(0);
   const [rightScore, setRightScore] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
-
   const [isHovered, setIsHovered] = useState<{ [key: number]: boolean }>({
     1: false,
     2: false,
@@ -61,35 +60,6 @@ const InGame = () => {
 
   const [timer, setTimer] = useState(15);
   const [isTimerRunning, setIsTimerRunning] = useState(true);
-
-  useEffect(() => {
-    console.log("Updated columnLevels:", columnLevels);
-  }, [columnLevels]);
-
-  useEffect(() => {
-    console.log("Updated pieceColors:", pieceColors);
-  }, [pieceColors]);
-
-  useEffect(() => {
-    console.log("lastPlacedId:", lastPlacedId);
-  }, [lastPlacedId]);
-  /*
-  useEffect(() => {
-    console.log("Updated isLeftTurn:", isLeftTurn);
-  }, [isLeftTurn]);
-
-  useEffect(() => {
-    console.log("starter:", starter);
-  }, [starter]);
-  
-  useEffect(() => {
-    console.log("Updated hasLeftWon:", hasLeftWon);
-  }, [hasLeftWon]);
-
-  useEffect(() => {
-    console.log("ConnectedPieces:", connectedPieces);
-  }, [connectedPieces]);
-  */
 
   // piece components
   type PieceProps = {
@@ -161,9 +131,11 @@ const InGame = () => {
       if (isLeftTurn) {
         setHasLeftWon(true);
         setLeftScore((prev) => prev + 1);
+        setIsTimerRunning(false);
       } else {
         setHasRightWon(true);
         setRightScore((prev) => prev + 1);
+        setIsTimerRunning(false);
       }
       return;
     }
@@ -173,7 +145,10 @@ const InGame = () => {
       (sum, level) => sum + level,
       0,
     );
-    if (occupiedSquares === 42) setIsDraw(true);
+    if (occupiedSquares === 42) {
+      setIsDraw(true);
+      setIsTimerRunning(false);
+    }
 
     // otherwise, switch turn
     // this condition check prevents unnecessary turn changes; a change in columLevels may trigger checkSequence (e.g., restartGame)
@@ -204,8 +179,6 @@ const InGame = () => {
         series = 0;
         connectedGroup.length = 0;
       }
-      //   console.log("Row series:", series);
-      //   console.log("ConnectedGroup:", connectedGroup);
 
       currentColumn++;
     }
@@ -235,7 +208,6 @@ const InGame = () => {
         series = 0;
         connectedGroup.length = 0;
       }
-      //   console.log("Column series:", series);
 
       currentRow--;
     }
@@ -274,7 +246,6 @@ const InGame = () => {
         series = 0;
         connectedGroup.length = 0;
       }
-      //   console.log("RightDiagonal series:", series);
 
       currentRow++;
       currentColumn++;
@@ -314,7 +285,6 @@ const InGame = () => {
         series = 0;
         connectedGroup.length = 0;
       }
-      //   console.log("LeftDiagonal series:", series);
 
       currentRow++;
       currentColumn--;
@@ -354,11 +324,13 @@ const InGame = () => {
   const cpuMove = (): void => {
     let targetCol: number | null = null;
 
-    if (lastPlacedId === null) {
+    // if center bottom is available, take it
+    if (columnLevels[4] === 0) {
       targetCol = 4;
     } else {
+      // check for potential consecutive four pieces
       for (let i = 1; i <= 7; i++) {
-        // check for potential consecutive four pieces
+        // first, check if CPU can win immediately
         if (columnLevels[i] === 6) continue;
         const targetSquareId = ((columnLevels[i] + 1) * 10 + i).toString();
 
@@ -369,10 +341,10 @@ const InGame = () => {
           simulateLeftDiagonal(targetSquareId, "yellow") >= 4
         ) {
           targetCol = i;
-          console.log("4 yellow");
           break;
         }
 
+        // second, block player if they can win next turn
         if (
           simulateRow(targetSquareId, "red") >= 4 ||
           simulateColumn(targetSquareId, "red") >= 4 ||
@@ -380,7 +352,6 @@ const InGame = () => {
           simulateLeftDiagonal(targetSquareId, "red") >= 4
         ) {
           targetCol = i;
-          console.log("4 red");
           break;
         }
       }
@@ -398,7 +369,6 @@ const InGame = () => {
             simulateLeftDiagonal(targetSquareId, "yellow") === 3
           ) {
             targetCol = i;
-            console.log("3 yellow");
             break;
           }
 
@@ -409,14 +379,25 @@ const InGame = () => {
             simulateLeftDiagonal(targetSquareId, "red") === 3
           ) {
             targetCol = i;
-            console.log("3 red");
             break;
           }
         }
       }
-      console.log("targetCol:", targetCol);
+      // console.log("targetCol:", targetCol);
 
-      // otherwise, pick a random column
+      // (Medium) default: pick a random column but prefer center
+      if (opponent === "CPU_medium" && !targetCol) {
+        const centerdArr = [
+          1, 2, 2, 2, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 6, 6,
+          6, 7,
+        ];
+        do {
+          const index = getRandomInt(0, centerdArr.length - 1);
+          targetCol = centerdArr[index];
+        } while (columnLevels[targetCol] === 6);
+      }
+
+      // (Easy) default: pick a completely random column
       if (!targetCol) {
         do {
           targetCol = getRandomInt(1, 7);
@@ -454,7 +435,6 @@ const InGame = () => {
 
       currentColumn++;
     }
-    console.log("series Row:", `${color} ${series}`);
 
     return series;
   };
@@ -480,7 +460,6 @@ const InGame = () => {
 
       currentRow++;
     }
-    // console.log("series Column:", series);
 
     return series;
   };
@@ -517,7 +496,6 @@ const InGame = () => {
       currentRow++;
       currentColumn++;
     }
-    // console.log("series RightDiagonal:", series);
 
     return series;
   };
@@ -554,7 +532,6 @@ const InGame = () => {
       currentRow++;
       currentColumn--;
     }
-    // console.log("series LeftDiagonal:", series);
 
     return series;
   };
