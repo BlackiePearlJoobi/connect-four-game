@@ -8,7 +8,6 @@ const InGame = () => {
   const { opponent } = useGameContext();
   const [starter, setStarter] = useState("left");
   const [isLeftTurn, setIsLeftTurn] = useState(true);
-  // const [isCPUTurn, setIsCPUTurn] = useState(false);
   const [hasLeftWon, setHasLeftWon] = useState(false);
   const [hasRightWon, setHasRightWon] = useState(false);
   const [isDraw, setIsDraw] = useState(false);
@@ -61,7 +60,7 @@ const InGame = () => {
   const [connectedPieces, setConnectedPieces] = useState<string[]>([]); // for showing white circles
 
   const [timer, setTimer] = useState(15);
-  const [isTimerRunning, setIsTimerRunning] = useState(false);
+  const [isTimerRunning, setIsTimerRunning] = useState(true);
 
   useEffect(() => {
     console.log("Updated columnLevels:", columnLevels);
@@ -71,22 +70,21 @@ const InGame = () => {
     console.log("Updated pieceColors:", pieceColors);
   }, [pieceColors]);
 
-  /*
   useEffect(() => {
     console.log("lastPlacedId:", lastPlacedId);
   }, [lastPlacedId]);
-
+  /*
   useEffect(() => {
     console.log("Updated isLeftTurn:", isLeftTurn);
   }, [isLeftTurn]);
 
   useEffect(() => {
-    console.log("Updated hasLeftWon:", hasLeftWon);
-  }, [hasLeftWon]);
-
-  useEffect(() => {
     console.log("starter:", starter);
   }, [starter]);
+  
+  useEffect(() => {
+    console.log("Updated hasLeftWon:", hasLeftWon);
+  }, [hasLeftWon]);
 
   useEffect(() => {
     console.log("ConnectedPieces:", connectedPieces);
@@ -142,7 +140,7 @@ const InGame = () => {
     }));
   };
 
-  // check for four consecutive pieces
+  // check for consecutive four pieces
   useEffect(() => {
     if (!lastPlacedId) return;
     const column = parseInt(lastPlacedId.charAt(1));
@@ -152,8 +150,8 @@ const InGame = () => {
   const checkSequence = (col: number): void => {
     if (hasLeftWon || hasRightWon || isDraw) return;
 
+    // check for endgame
     const targetSquareId = (columnLevels[col] * 10 + col).toString();
-
     if (
       checkRow(targetSquareId) ||
       checkColumn(targetSquareId) ||
@@ -170,6 +168,14 @@ const InGame = () => {
       return;
     }
 
+    // check for a stalemate
+    const occupiedSquares = Object.values(columnLevels).reduce(
+      (sum, level) => sum + level,
+      0,
+    );
+    if (occupiedSquares === 42) setIsDraw(true);
+
+    // otherwise, switch turn
     // this condition check prevents unnecessary turn changes; a change in columLevels may trigger checkSequence (e.g., restartGame)
     if (Object.values(pieceColors).length !== 0) {
       setIsLeftTurn((prev) => !prev);
@@ -317,18 +323,6 @@ const InGame = () => {
     return false;
   };
 
-  // check for a stalemate
-  useEffect(() => {
-    const occupiedSquares = Object.values(columnLevels).reduce(
-      (sum, level) => sum + level,
-      0,
-    );
-
-    if (occupiedSquares === 42) {
-      setIsDraw(true);
-    }
-  }, [columnLevels]);
-
   // countdown timer
   useEffect(() => {
     if (isTimerRunning && timer > 0) {
@@ -352,46 +346,82 @@ const InGame = () => {
 
   // CPU movement
   useEffect(() => {
-    if (opponent === "CPU_easy" && !isLeftTurn) {
-      setTimeout(cpuEasyMove, 500);
+    if (opponent !== "human" && !isLeftTurn) {
+      setTimeout(cpuMove, 500);
     }
   }, [isLeftTurn, starter]);
 
-  const cpuEasyMove = (): void => {
+  const cpuMove = (): void => {
     let targetCol: number | null = null;
 
     if (lastPlacedId === null) {
-      // if it's the initial move of the game, select the middle column
       targetCol = 4;
     } else {
       for (let i = 1; i <= 7; i++) {
+        // check for potential consecutive four pieces
         if (columnLevels[i] === 6) continue;
         const targetSquareId = ((columnLevels[i] + 1) * 10 + i).toString();
 
         if (
-          // check if it can connect four pieces
-          simulateRow(targetSquareId, "yellow") ||
-          simulateColumn(targetSquareId, "yellow") ||
-          simulateRightDiagonal(targetSquareId, "yellow") ||
-          simulateLeftDiagonal(targetSquareId, "yellow") ||
-          // check if the opponent (human) will connect four next turn
-          simulateRow(targetSquareId, "red") ||
-          simulateColumn(targetSquareId, "red") ||
-          simulateRightDiagonal(targetSquareId, "red") ||
-          simulateLeftDiagonal(targetSquareId, "red")
+          simulateRow(targetSquareId, "yellow") >= 4 ||
+          simulateColumn(targetSquareId, "yellow") >= 4 ||
+          simulateRightDiagonal(targetSquareId, "yellow") >= 4 ||
+          simulateLeftDiagonal(targetSquareId, "yellow") >= 4
         ) {
           targetCol = i;
+          console.log("4 yellow");
+          break;
+        }
+
+        if (
+          simulateRow(targetSquareId, "red") >= 4 ||
+          simulateColumn(targetSquareId, "red") >= 4 ||
+          simulateRightDiagonal(targetSquareId, "red") >= 4 ||
+          simulateLeftDiagonal(targetSquareId, "red") >= 4
+        ) {
+          targetCol = i;
+          console.log("4 red");
           break;
         }
       }
-    }
-    // console.log("targetCol:", targetCol);
 
-    // default: select a random column
-    if (!targetCol) {
-      do {
-        targetCol = getRandomInt(1, 7);
-      } while (columnLevels[targetCol] === 6);
+      // (Medium) check for potential consecutive three pieces
+      if (opponent === "CPU_medium" && !targetCol) {
+        for (let i = 1; i <= 7; i++) {
+          if (columnLevels[i] === 6) continue;
+          const targetSquareId = ((columnLevels[i] + 1) * 10 + i).toString();
+
+          if (
+            simulateRow(targetSquareId, "yellow") === 3 ||
+            simulateColumn(targetSquareId, "yellow") === 3 ||
+            simulateRightDiagonal(targetSquareId, "yellow") === 3 ||
+            simulateLeftDiagonal(targetSquareId, "yellow") === 3
+          ) {
+            targetCol = i;
+            console.log("3 yellow");
+            break;
+          }
+
+          if (
+            simulateRow(targetSquareId, "red") === 3 ||
+            simulateColumn(targetSquareId, "red") === 3 ||
+            simulateRightDiagonal(targetSquareId, "red") === 3 ||
+            simulateLeftDiagonal(targetSquareId, "red") === 3
+          ) {
+            targetCol = i;
+            console.log("3 red");
+            break;
+          }
+        }
+      }
+      console.log("targetCol:", targetCol);
+
+      // otherwise, pick a random column
+      if (!targetCol) {
+        do {
+          targetCol = getRandomInt(1, 7);
+        } while (columnLevels[targetCol] === 6);
+      }
     }
 
     updatePieceColors(targetCol);
@@ -403,10 +433,11 @@ const InGame = () => {
   const getRandomInt = (min: number, max: number): number =>
     Math.floor(Math.random() * (max - min + 1)) + min;
 
-  const simulateRow = (id: string, color: Color): boolean => {
+  const simulateRow = (id: string, color: Color): number => {
     const row = parseInt(id.charAt(0));
     let currentColumn = 1;
     let series = 0;
+    let seriesTemp = 0;
 
     const pieceColorsTemp: { [key: string]: Color } = { ...pieceColors };
     pieceColorsTemp[id] = color;
@@ -415,51 +446,49 @@ const InGame = () => {
       const currentSquareId = `${row}${currentColumn}`;
 
       if (pieceColorsTemp[currentSquareId] === color) {
-        series++;
-        if (series === 4) {
-          return true;
-        }
+        seriesTemp++;
+        if (seriesTemp > series) series = seriesTemp;
       } else {
-        series = 0;
+        seriesTemp = 0;
       }
 
       currentColumn++;
     }
+    console.log("series Row:", `${color} ${series}`);
 
-    return false;
+    return series;
   };
 
-  const simulateColumn = (id: string, color: Color): boolean => {
+  const simulateColumn = (id: string, color: Color): number => {
     const column = parseInt(id.charAt(1));
-    let currentRow = parseInt(id.charAt(0));
-    const endRow = currentRow - 3;
+    let currentRow = 1;
     let series = 0;
+    let seriesTemp = 0;
 
     const pieceColorsTemp: { [key: string]: Color } = { ...pieceColors };
     pieceColorsTemp[id] = color;
 
-    while (currentRow >= endRow) {
+    while (currentRow <= 6) {
       const currentSquareId = `${currentRow}${column}`;
 
       if (pieceColorsTemp[currentSquareId] === color) {
-        series++;
-        if (series === 4) {
-          return true;
-        }
+        seriesTemp++;
+        if (seriesTemp > series) series = seriesTemp;
       } else {
-        series = 0;
+        seriesTemp = 0;
       }
 
-      currentRow--;
+      currentRow++;
     }
+    // console.log("series Column:", series);
 
-    return false;
+    return series;
   };
 
-  const simulateRightDiagonal = (id: string, color: Color): boolean => {
+  const simulateRightDiagonal = (id: string, color: Color): number => {
     const row = parseInt(id.charAt(0));
     const column = parseInt(id.charAt(1));
-    if (row - column >= 3 || row - column <= -4) return false;
+    if (row - column >= 3 || row - column <= -4) return 0;
     let currentRow = row - column === 2 ? 3 : row - column === 1 ? 2 : 1;
     let currentColumn =
       row - column >= 0
@@ -470,6 +499,7 @@ const InGame = () => {
             ? 3
             : 4;
     let series = 0;
+    let seriesTemp = 0;
 
     const pieceColorsTemp: { [key: string]: Color } = { ...pieceColors };
     pieceColorsTemp[id] = color;
@@ -478,25 +508,24 @@ const InGame = () => {
       const currentSquareId = `${currentRow}${currentColumn}`;
 
       if (pieceColorsTemp[currentSquareId] === color) {
-        series++;
-        if (series === 4) {
-          return true;
-        }
+        seriesTemp++;
+        if (seriesTemp > series) series = seriesTemp;
       } else {
-        series = 0;
+        seriesTemp = 0;
       }
 
       currentRow++;
       currentColumn++;
     }
+    // console.log("series RightDiagonal:", series);
 
-    return false;
+    return series;
   };
 
-  const simulateLeftDiagonal = (id: string, color: Color): boolean => {
+  const simulateLeftDiagonal = (id: string, color: Color): number => {
     const row = parseInt(id.charAt(0));
     const column = parseInt(id.charAt(1));
-    if (row + column >= 11 || row + column <= 4) return false;
+    if (row + column >= 11 || row + column <= 4) return 0;
     let currentRow = row + column === 10 ? 3 : row + column === 9 ? 2 : 1;
     let currentColumn =
       row + column === 5
@@ -507,6 +536,7 @@ const InGame = () => {
             ? 6
             : 7;
     let series = 0;
+    let seriesTemp = 0;
 
     const pieceColorsTemp: { [key: string]: Color } = { ...pieceColors };
     pieceColorsTemp[id] = color;
@@ -515,19 +545,18 @@ const InGame = () => {
       const currentSquareId = `${currentRow}${currentColumn}`;
 
       if (pieceColorsTemp[currentSquareId] === color) {
-        series++;
-        if (series === 4) {
-          return true;
-        }
+        seriesTemp++;
+        if (seriesTemp > series) series = seriesTemp;
       } else {
-        series = 0;
+        seriesTemp = 0;
       }
 
       currentRow++;
       currentColumn--;
     }
+    // console.log("series LeftDiagonal:", series);
 
-    return false;
+    return series;
   };
 
   // events for nav buttons
