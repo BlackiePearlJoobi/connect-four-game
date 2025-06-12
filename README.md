@@ -28,7 +28,11 @@ With an intuitive interface and polished design, this version brings a modern, a
 
 ### The challenge
 
+<<<<<<< HEAD
 The goal of this project was to create a fully interactive Connect Four game with smooth animations, responsive design, and a challenging CPU opponent. The biggest hurdles included:
+=======
+The goal of this project was to create a fully interactive Connect Four game with smooth animations, responsive design, and a challenging AI opponent. The biggest hurdles included:
+>>>>>>> 12a141a (Edit README)
 
 - **Game Logic:** Implementing a system to detect winning conditions across rows, columns, and diagonals efficiently.
 
