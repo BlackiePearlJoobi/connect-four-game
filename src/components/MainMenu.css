@@ -14,10 +14,10 @@
     left: 50%;
     transform: translate(-50%, -50%);
     width: 335px;
-    height: 500px;
+    height: 455px;
     display: flex;
     flex-direction: column;
-    gap: 60px;
+    gap: 6%;
 
     .logo-container {
       width: 52px;
@@ -34,7 +34,7 @@
     .button-container {
       display: flex;
       flex-direction: column;
-      gap: 15px;
+      gap: 9px;
 
       .menu-button {
         width: 100%;

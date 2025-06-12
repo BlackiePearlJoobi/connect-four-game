@@ -33,12 +33,11 @@
     position: relative;
     width: 335px;
     place-items: center;
-    margin-top: 5%;
 
     .nav-container {
       width: 100%;
       height: 40px;
-      margin: 0 20px 30px;
+      margin: 4% 0;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -67,10 +66,11 @@
     }
 
     .scoreboards-container {
-      margin-bottom: 30px;
+      width: 100%;
+      margin-bottom: 4%;
       display: flex;
       flex-direction: row;
-      gap: 20px;
+      justify-content: space-between;
 
       .score-container {
         height: 81px;
@@ -225,8 +225,8 @@
 
           .marker {
             width: 30px;
-            height: 26px;
-            margin-top: -37px;
+            height: 21px;
+            margin-top: -25px;
           }
         }
       }
@@ -235,8 +235,8 @@
     .player-turn {
       position: relative;
       z-index: 3;
-      width: 191px;
-      height: 158px;
+      width: 170px;
+      height: 140px;
       padding: 35px 30px 16px;
       background-size: cover;
       background-repeat: no-repeat;
@@ -247,7 +247,7 @@
       align-items: center;
       justify-content: center;
       gap: 2px;
-      margin-top: -30px;
+      margin: -30px auto 0;
 
       .current-player {
         font-weight: var(--font-weight-heading);
@@ -287,8 +287,8 @@
     .result-container {
       position: relative;
       z-index: 3;
-      width: 285px;
-      height: 170px;
+      width: 235px;
+      height: 135px;
       background-color: var(--white);
       border: 3px solid var(--black);
       border-bottom: 10px solid var(--black);
@@ -297,7 +297,7 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      margin-top: -25px;
+      margin: -32px auto 0;
 
       .player-name {
         font-weight: var(--font-weight-heading);
@@ -309,6 +309,7 @@
         font-weight: var(--font-weight-heading);
         font-size: var(--font-size-heading-l);
         line-height: var(--line-height-heading-l);
+        line-height: 3.5rem;
       }
 
       .restart-button-result {
@@ -329,10 +330,10 @@
   .underlay {
     z-index: 1;
     position: absolute;
-    bottom: 0;
+    top: 450px;
     left: 0;
     width: 100vw;
-    height: calc(100vh - 500px);
+    height: 100vh;
     background-color: var(--dark-purple);
     border-top-left-radius: 75px;
     border-top-right-radius: 75px;
@@ -367,6 +368,7 @@
 
       .scoreboards-container {
         height: 100px;
+        justify-content: center;
         gap: 40px;
 
         .score-container {
@@ -480,16 +482,16 @@
       }
 
       .player-turn {
-        margin-top: -55px;
+        margin-top: -60px;
       }
 
       .result-container {
-        margin-top: -55px;
+        margin-top: -60px;
       }
     }
 
     .underlay {
-      height: calc(100vh - 775px);
+      top: 790px;
       border-top-left-radius: 50px;
       border-top-right-radius: 50px;
     }
@@ -554,10 +556,6 @@
           }
         }
       }
-    }
-
-    .underlay {
-      height: calc(100vh - 685px);
     }
   }
 }
