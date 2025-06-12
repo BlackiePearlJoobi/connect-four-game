@@ -383,7 +383,6 @@ const InGame = () => {
           }
         }
       }
-      // console.log("targetCol:", targetCol);
 
       // (Medium) default: pick a random column but prefer center
       if (opponent === "CPU_medium" && !targetCol) {
@@ -681,11 +680,20 @@ const InGame = () => {
                   className="column"
                   id={col.toString()}
                   key={col.toString()}
+                  tabIndex={0}
                   onClick={() => {
                     updatePieceColors(col);
                     updateLastPlacedId(col);
                     updateColumnLevels(col);
                     updateHasAppeared(col);
+                  }}
+                  onKeyDown={(event) => {
+                    if (event.key === "Enter") {
+                      updatePieceColors(col);
+                      updateLastPlacedId(col);
+                      updateColumnLevels(col);
+                      updateHasAppeared(col);
+                    }
                   }}
                   onMouseEnter={() =>
                     setIsHovered((prev) => ({

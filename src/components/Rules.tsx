@@ -31,7 +31,16 @@ const Rules = () => {
             The starter of the previous game goes second on the next game.
           </li>
         </ol>
-        <button className="check-button">
+        <button
+          className="check-button"
+          tabIndex={0}
+          onClick={() => setIsInMainMenu(true)}
+          onKeyDown={(event) => {
+            if (event.key === "Enter") {
+              setIsInMainMenu(true);
+            }
+          }}
+        >
           <img
             src={`${import.meta.env.BASE_URL}/assets/images/${
               isHovered ? "icon-check-hover.svg" : "icon-check.svg"
@@ -40,7 +49,6 @@ const Rules = () => {
             className="check-icon"
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
-            onClick={() => setIsInMainMenu(true)}
           ></img>
         </button>
       </section>

@@ -161,7 +161,6 @@
           .piece {
             width: 48px;
             height: 48px;
-            animation: flip 0.5s linear;
 
             .piece-image {
               width: 100%;
