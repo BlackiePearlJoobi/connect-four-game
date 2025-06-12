@@ -34,7 +34,7 @@ function App() {
               >
                 <span className="button-label">PLAY VS CPU &#40;EASY&#41;</span>
                 <img
-                  src={`${basePath}/assets/images/player-vs-cpu.svg`}
+                  src={`${basePath}/assets/images/player-vs-cpu-orange.svg`}
                   alt="player and cpu"
                   className="button-icon"
                 ></img>

@@ -118,18 +118,18 @@
 }
 
 @media (min-width: 641px) {
-  #main-menu-background {
+  .main-menu-background {
     background-color: var(--dark-purple);
 
-    #main-menu-container {
+    .main-menu-container {
       background-color: var(--purple);
       width: 480px;
-      height: 537px;
+      height: 620px;
       border: 3px solid var(--black);
       border-bottom: 10px solid var(--black);
       border-radius: 40px;
       padding: 70px 40px 60px;
-      gap: 79px;
+      gap: 70px;
     }
 
     footer {
