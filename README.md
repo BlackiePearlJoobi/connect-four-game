@@ -36,7 +36,7 @@ The goal of this project was to create a fully interactive Connect Four game wit
 
 - **Animations & User Experience:** Ensuring smooth transitions, intuitive interactions, and visually appealing game states.
 
-### Screenshot
+### Screenshots
 
 ![Screenshot - main menu](public/assets/images/Screenshot_main_menu.jpg)
 ![Screenshot - in game (mobile)](public/assets/images/Screenshot_ingame.jpg)
@@ -59,7 +59,7 @@ The goal of this project was to create a fully interactive Connect Four game wit
 
 ### What I learned
 
-#### HTML (TSX in React)
+#### 1. HTML (TSX in React)
 
 The Connect Four pieces are dynamically rendered using React’s TSX, ensuring modularity while maintaining a semantic structure.
 
@@ -87,15 +87,15 @@ const Piece = ({ id, color }: PieceProps) => {
 
 **Key Features:**
 
-- **Reusable Component Structure:** Piece represents a single game piece, ensuring consistent rendering throughout the board.
+- **Reusable Component Structure:** `Piece` represents a single game piece, ensuring consistent rendering throughout the board.
 
-- **Conditional Rendering:** If `color === "blank"`, the component returns null, preventing unnecessary DOM elements.
+- **Conditional Rendering:** If `color === "blank"`, the component returns `null`, preventing unnecessary DOM elements.
 
-- **Semantic Markup via TSX:** The <div> encapsulates each piece while an <img> visually represents the game token.
+- **Semantic Markup via TSX:** The `<div>`encapsulates each piece while an `<img>` visually represents the game token.
 
-- **Dynamic Class Management:** The drop-animation class is conditionally applied when a new piece is placed.
+- **Dynamic Class Management:** The `drop-animation` class is conditionally applied when a new piece is placed.
 
-#### CSS
+#### 2. CSS
 
 This project leverages CSS animations, layering techniques, and responsive styling to create a polished and engaging user experience.
 
@@ -184,7 +184,7 @@ This project leverages CSS animations, layering techniques, and responsive styli
 
 The `.game-board-container` is structured with multiple layers:
 
-- `.game-board-back`: Represents the lowest layer, using z-index: 0.
+- `.game-board-back`: Represents the lowest layer, using `z-index: 0`.
 
 - `.game-board-middle`: Houses the individual squares and game pieces, positioned absolutely for precise placement.
 
@@ -200,17 +200,15 @@ Smooth animations enhance gameplay responsiveness:
 
 - **Fade-in Effect** (`fadeIn 0.5s linear with delay`): Highlights winning pieces with a subtle transition.
 
-#### React: Context API
+#### 3. React: Context API
 
 This project utilizes Context API to efficiently manage game state across components, reducing prop drilling and ensuring a scalable architecture.
 
 **How Context API is Used**
 
-- **Global State Management:** Stores game-related values like `setOpponent`, `isInMainMenu`, and turn tracking.
+- **Global State Management:** Stores game-related values such as `setOpponent` and `isInMainMenu`, allowing all components to access and update game state seamlessly.
 
-- **Centralized Logic:** Ensures all components access and update game state seamlessly.
-
-- **Efficient Performance:** Context reduces unnecessary re-renders compared to passing props deeply.
+- **Custom Hook (`useGameContext`):** Ensures proper usage by throwing an error if accessed outside `GameProvider`, and encapsulates state access so components don’t need to manually call `useContext(GameContext)`.
 
 ```tsx
 import { createContext, useState, useContext } from "react";
@@ -254,13 +252,13 @@ export const useGameContext = () => {
 };
 ```
 
-#### React: Detecting Winning Conditions
+#### 4. React: Detecting Winning Conditions
 
 To determine the game's outcome, this project implements an efficient **win detection system** that checks for four consecutive pieces in **rows, columns, and diagonals.**
 
 **How It Works**
 
-Each placed piece triggers a check based on its position, ensuring minimal unnecessary calculations:
+With `useEffect`, each placed piece triggers a check based on its position, ensuring minimal unnecessary calculations:
 
 - **Row Check:** Iterates through the same row to identify consecutive matches.
 
@@ -292,9 +290,9 @@ const checkRow = (id: string): boolean => {
 };
 ```
 
-#### React: State Management
+#### 5. React: State Management
 
-The `InGame` component manages multiple aspects of gameplay using React's useState hook, tracking turns, scores, board state, and animations dynamically.
+The `InGame` component manages multiple aspects of gameplay using React's `useState` hook, tracking turns, scores, board state, and animations dynamically.
 
 **Key State Variables**
 
@@ -325,7 +323,7 @@ const updatePieceColors = (col: number): void => {
 };
 ```
 
-#### React: CPU Strategy
+#### 6. React: CPU Strategy
 
 The CPU opponent in this Connect Four game follows a strategic decision-making process, balancing difficulty levels and engagement for players.
 
@@ -337,7 +335,7 @@ The CPU opponent in this Connect Four game follows a strategic decision-making p
 
   2. **Blocking player moves** – Prevents the opponent from winning when possible.
 
-Otherwise,
+  Otherwise,
 
 - **Easy CPU:** Selects moves randomly without considering strategy.
 
