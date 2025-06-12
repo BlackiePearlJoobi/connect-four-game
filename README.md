@@ -1,14 +1,14 @@
-# Connect Four Game
+# 🔑 Password Generator App
 
-Connect Four is a strategic two-player game where players take turns dropping pieces into a grid, aiming to get four in a row before their opponent. This implementation offers smooth animations, responsive gameplay, and CPU opponents with varying difficulty levels for a balanced challenge.
+This project is a customizable password generator built with TypeScript and modern web technologies. It enables users to create secure, randomized passwords by allowing them to:
 
-With an intuitive interface and polished design, this version brings a modern, accessible experience to one of the most beloved classic games. Some unique features of this project includes:
+- Customize character sets: Choose to include uppercase letters, lowercase letters, numbers, and symbols.
 
-- **Animated piece drops** for a dynamic visual experience
+- Adjust password length: Utilize a slider to specify the desired length of the generated password.
 
-- **CPU difficulty levels** that adapt to different play styles
+- Assess password strength: Receive real-time feedback via a strength indicator that evaluates password complexity based on diversity and length. The algorithm even checks against a list of common passwords to discourage predictable patterns.
 
-- **Responsive layout** ensuring seamless gameplay on different screen sizes
+- User-friendly controls: The interface provides interactive checkboxes with visual toggles for each character option, and a convenient copy-to-clipboard feature for quick password use. All the functions are keyboard accessible.
 
 ## Table of contents
 
@@ -28,449 +28,211 @@ With an intuitive interface and polished design, this version brings a modern, a
 
 ### The challenge
 
-The goal of this project was to create a fully interactive Connect Four game with smooth animations, responsive design, and a challenging CPU opponent. The biggest hurdles included:
+Designed with a focus on modularity and extensibility, the project ensures that:
 
-- **Game Logic:** Implementing a system to detect winning conditions across rows, columns, and diagonals efficiently.
+- Error handling is in place for asynchronous requests, safely managing any issues during resource loading.
 
-- **AI Strategy:** Designing an opponent that adapts its difficulty, making the experience engaging for players.
+- DRY principles are prioritized by centralizing event listener assignments for checkboxes, making future enhancements easier.
 
-- **Animations & User Experience:** Ensuring smooth transitions, intuitive interactions, and visually appealing game states.
+- The code structure encourages maintainability and scalability, so additional features or options can be seamlessly added.
 
-### Screenshots
+Whether you're a developer seeking to extend the functionality or a user needing a reliable tool to generate strong passwords, this project delivers a secure and intuitive solution.
 
-![Screenshot - main menu](public/assets/images/Screenshot_main_menu.jpg)
-![Screenshot - in game (mobile)](public/assets/images/Screenshot_ingame.jpg)
-![Screenshot - game result (desktop)](public/assets/images/Screenshot_result.jpg)
+### Screenshot
+
+![Screenshot - strong](assets/images/Screenshot_1.jpg)
+![Screenshot - weak](assets/images/Screenshot_2.jpg)
 
 ### Links
 
-- Solution URL: [GitHub repo](https://github.com/BlackiePearlJoobi/connect-four-game.git)
-- Live Site URL: [GitHub Pages](https://blackiepearljoobi.github.io/connect-four-game/)
+- Solution URL: [GitHub repo](https://github.com/BlackiePearlJoobi/password-generator-app.git)
+- Live Site URL: [GitHub Pages](https://blackiepearljoobi.github.io/password-generator-app/)
 
 ## My process
 
 ### Built with
 
-- Semantic HTML5 markup (via TSX in React)
-- Component-level CSS (custom properties, `flexbox`, animations, etc.)
-- React (Context API, `useState`, `useEffect`, etc.)
-- Typescript
-- Vite
+- Semantic HTML5 markup
+- CSS custom properties
+- Flexbox
+- Mobile-first workflow
+- Vanilla Typescript
 
 ### What I learned
 
-#### 1. HTML (TSX in React)
+#### HTML
 
-The Connect Four pieces are dynamically rendered using React’s TSX, ensuring modularity while maintaining a semantic structure.
+1. Using <output> for Dynamic Data
 
-```tsx
-type Color = "red" | "yellow" | "blank";
-type PieceProps = {
-  id: string;
-  color: Color;
-};
+   - Using the `<output>` tag instead of using a `<div>` or `<span>` for displaying the generated password, explicitly communicating that the value is computed, and making it more meaningful for browsers and assistive devices.
 
-const Piece = ({ id, color }: PieceProps) => {
-  return color === "blank" ? null : (
-    <div
-      className={`piece ${id === lastPlacedId && !hasAppeared[id] && "drop-animation"}`}
-      color={color}
-    >
-      <img
-        src={`${basePath}/assets/images/counter-${color}-small.svg`}
-        className="piece-image"
-      />
-    </div>
-  );
-};
+```html
+<div class="result-container">
+  <output id="result">P4$5W0rD!</output>
+  <div class="copier-container">
+    <!--contents -->
+  </div>
+</div>
 ```
 
-**Key Features:**
+2. Enhancing Accessibility with ARIA and Keyboard Support
 
-- **Reusable Component Structure:** `Piece` represents a single game piece, ensuring consistent rendering throughout the board.
+   - Added `aria-label` to buttons (like the copy button) for better screen reader support.
 
-- **Conditional Rendering:** If `color === "blank"`, the component returns `null`, preventing unnecessary DOM elements.
+   - Used `tabindex="0"` on custom checkboxes to make them keyboard accessible.
 
-- **Semantic Markup via TSX:** The `<div>`encapsulates each piece while an `<img>` visually represents the game token.
+   - Linked `<label>` elements to inputs using the for attribute, improving form usability.
 
-- **Dynamic Class Management:** The `drop-animation` class is conditionally applied when a new piece is placed.
+#### CSS
 
-#### 2. CSS
+1. Using CSS Variables for Scalability
 
-This project leverages CSS animations, layering techniques, and responsive styling to create a polished and engaging user experience.
+   - Defined global CSS variables (`--font-size-1, --gray-800, --green`, etc.) within `:root` to ensure a consistent and manageable theme.
+
+   - Applied `font-size` and `line-height` variables for better text uniformity across breakpoints.
+
+2. Accessibility & Readability Improvements
+
+   - Ensured readable color contrasts (`var(--gray-200)` for text, `var(--gray-800)` for backgrounds).
+
+   - Styled interactive elements (`#copy-btn`, `.checkbox`, `#generate-btn`) for clear visual feedback.
+
+3. Flexbox for Layout Control
+
+   - Implemented display: `flex` and `flex-direction: column` across major containers (`.wrapper`, `.generator-container`) for responsive design.
+
+4. Styling Interactive Components
+
+   - Checkboxes & Toggles: Customized `.checkbox-hidden` to ensure checkboxes don’t appear visually, using `.checkbox` as a styled alternative with an icon.
+
+   - Slider Styling:
+
+     - Applied `&::-webkit-slider-thumb` and `&::-moz-range-thumb` for cross-browser support.
+
+     - Used `var(--track-fill)` to dynamically update the track color.
 
 ```css
-@keyframes drop {
-  0% {
-    transform: translateY(-100vh);
-    opacity: 0;
-  }
-  100% {
-    transform: translateY(0);
-    opacity: 1;
-  }
-}
+#slider {
+  /* reset styles */
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+  cursor: pointer;
+  width: 100%;
+  height: 28px;
 
-@keyframes fadeIn {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
-}
-
-.game-board-container {
-  position: relative;
-
-  .game-board-back {
-    z-index: 0;
-    background-image: url(/assets/images/board-layer-black-small.svg);
+  /***** Track Styles *****/
+  /***** Chrome, Safari, Opera, and Edge Chromium *****/
+  &::-webkit-slider-runnable-track {
+    background: var(--track-fill);
+    height: 8px;
   }
 
-  .game-board-middle {
-    z-index: 1;
-    position: absolute;
-    top: 3%;
-    left: 2%;
-
-    .square {
-      position: relative;
-
-      .piece {
-        .piece-image {
-        }
-      }
-
-      .drop-animation {
-        animation: drop 0.2s ease-out;
-      }
-
-      .circle {
-        z-index: 1;
-        position: absolute;
-        top: 41%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        animation: fadeIn 0.5s linear forwards;
-        animation-delay: 0.2s;
-      }
-    }
-  }
-
-  .game-board-front {
-    z-index: 2;
-    position: absolute;
-    top: 0;
-    left: 0;
-    background-image: url(/assets/images/board-layer-white-small.svg);
-  }
-
-  .game-board-surface {
-    z-index: 4;
-    position: absolute;
-    top: 3%;
-    left: 2%;
-
-    .column {
-      .marker {
-      }
-    }
+  /******** Firefox ********/
+  &::-moz-range-track {
+    background: var(--track-fill);
+    height: 8px;
   }
 }
 ```
 
-**Game Board Styling**
+5. Responsive Design Considerations
 
-The `.game-board-container` is structured with multiple layers:
+   - Media Queries (`@media (min-width: 641px)`) adjust:
 
-- `.game-board-back`: Represents the lowest layer, using `z-index: 0`.
+     - Font sizes (`var(--font-size-2)` for larger screens).
 
-- `.game-board-middle`: Houses the individual squares and game pieces, positioned absolutely for precise placement.
+     - Layout positioning (`margin: auto 5%` for the main container).
 
-- `.game-board-front`: The topmost visual layer, ensuring a clean and structured board appearance.
+     - Button sizes (`height: 72px` for wider screens).
 
-- `.game-board-surface`: Captures user interactions, such as piece placement and hover markers.
+   - Ensured `min-height: 100vh` in `.wrapper` for full viewport coverage, preventing layout cutoffs.
 
-**Animations & Transitions**
+#### Typescript
 
-Smooth animations enhance gameplay responsiveness:
+1. Strong Typing for Reliability
 
-- **Piece Drop Animation** (`drop 0.2s ease-out`): Adds a dynamic falling motion when a piece is placed.
+   - Defined explicit types (`type characters = (string | number)[]`) to ensure type safety and avoid runtime errors.
 
-- **Fade-in Effect** (`fadeIn 0.5s linear with delay`): Highlights winning pieces with a subtle transition.
+   - Used TypeScript’s `Record<key, value>` type for managing inclusion options dynamically (`Record<OptionName, boolean>`), improving readability and scalability.
 
-#### 3. React: Context API
+2. Modular & Maintainable Code
 
-This project utilizes Context API to efficiently manage game state across components, reducing prop drilling and ensuring a scalable architecture.
+   - followed a modular approach with functions dedicated to specific tasks, improving readability and efficiency.
 
-**How Context API is Used**
+   - `setSlider(currentLength: number, maxLength: number)`
 
-- **Global State Management:** Stores game-related values such as `setOpponent` and `isInMainMenu`, allowing all components to access and update game state seamlessly.
+     - Dynamically adjusts the slider track fill color using a percentage-based CSS property (`--track-fill`).
 
-- **Custom Hook (`useGameContext`):** Ensures proper usage by throwing an error if accessed outside `GameProvider`, and encapsulates state access so components don’t need to manually call `useContext(GameContext)`.
+     - Helps provide visual feedback when users adjust password length.
 
-```tsx
-import { createContext, useState, useContext } from "react";
+   - `rateStrength(password: (string | number)[]): [string, number]`
 
-type OpponentType = "CPU_easy" | "CPU_medium" | "human" | null;
+     - Evaluates password strength based on:
 
-interface GameContextType {
-  opponent: OpponentType;
-  setOpponent: (x: OpponentType) => void;
-  isInMainMenu: boolean;
-  setIsInMainMenu: (x: boolean) => void;
-}
+       - Length (short passwords reduce strength, longer ones increase it).
 
-const GameContext = createContext<GameContextType | undefined>(undefined);
+       - Character diversity (uppercase, lowercase, numbers, and symbols).
 
-export const GameProvider = ({ children }: { children: React.ReactNode }) => {
-  const [opponent, setOpponent] = useState<OpponentType>(null);
+       - Common password check (prevents easily guessable passwords).
 
-  const [isInMainMenu, setIsInMainMenu] = useState(true);
+     - Returns a strength rating ("VERY WEAK", "WEAK", "MEDIUM", etc.), improving security awareness.
 
-  return (
-    <GameContext.Provider
-      value={{
-        opponent,
-        setOpponent,
-        isInMainMenu,
-        setIsInMainMenu,
-      }}
-    >
-      {children}
-    </GameContext.Provider>
-  );
-};
+   - `updateIndicator(rating: number)`
 
-export const useGameContext = () => {
-  const context = useContext(GameContext);
-  if (!context) {
-    throw new Error("useGameContext must be used within GameProvider");
-  }
-  return context;
-};
-```
+     - Adjusts visual indicators (colored bars) to reflect password strength.
 
-#### 4. React: Detecting Winning Conditions
+     - Uses a switch-case structure to apply appropriate colors (red, orange, green, etc.), enhancing UX clarity.
 
-To determine the game's outcome, this project implements an efficient **win detection system** that checks for four consecutive pieces in **rows, columns, and diagonals.**
+   - Refactored toggle functions into a single, reusable `toggleOption()` function to eliminate redundant logic.
 
-**How It Works**
+3. Event Handling & Accessibility
 
-With `useEffect`, each placed piece triggers a check based on its position, ensuring minimal unnecessary calculations:
+   - Implemented `try...catch` for asynchronous password loading (`loadCommonPasswords`), preventing network-related errors.
 
-- **Row Check:** Iterates through the same row to identify consecutive matches.
+   - Centralized event listener assignments for checkboxes via `.forEach()`, reducing repetition.
 
-- **Column Check:** Scans vertically from the bottom up.
+4. Improving Scalability
 
-- **Diagonal Checks:** Traverses diagonals from both left and right angles.
+   - Structured logic to allow future enhancements, such as new password options or advanced strength algorithms.
 
-**Example: Row Check**
-
-```tsx
-const checkRow = (id: string): boolean => {
-  const row = parseInt(id.charAt(0));
-  let currentColumn = 1;
-  const targetColor = isLeftTurn ? "red" : "yellow";
-  let series = 0;
-
-  while (currentColumn <= 7) {
-    const currentSquareId = `${row}${currentColumn}`;
-
-    if (pieceColors[currentSquareId] === targetColor) {
-      series++;
-      if (series >= 4) return true;
-    } else {
-      series = 0;
-    }
-    currentColumn++;
-  }
-  return false;
-};
-```
-
-#### 5. React: State Management
-
-The `InGame` component manages multiple aspects of gameplay using React's `useState` hook, tracking turns, scores, board state, and animations dynamically.
-
-**Key State Variables**
-
-- **Turn Tracking:** `isLeftTurn` determines whose turn it is.
-
-- **Win Detection:** `hasLeftWon`, `hasRightWon`, and `isDraw` signal game outcomes.
-
-- **Score Management:** `leftScore` and `rightScore` update based on wins.
-
-- **Piece Placement:** `pieceColors`, `columnLevels`, and `lastPlacedId` store board positions dynamically.
-
-- **Animations & UI:** `hasAppeared` prevents repeated animations, while `isHovered` manages column markers.
-
-- **Timer Logic:** `timer` and `isTimerRunning` track countdown functionality.
-
-**Example: Handling Piece Placement**
-
-```tsx
-const updatePieceColors = (col: number): void => {
-  if (columnLevels[col] === 6 || hasLeftWon || hasRightWon || isDraw) return;
-
-  const targetSquareId = ((columnLevels[col] + 1) * 10 + col).toString();
-
-  setPieceColors((prevColors) => ({
-    ...prevColors,
-    [targetSquareId]: isLeftTurn ? "red" : "yellow",
-  }));
-};
-```
-
-#### 6. React: CPU Strategy
-
-The CPU opponent in this Connect Four game follows a strategic decision-making process, balancing difficulty levels and engagement for players.
-
-**Difficulty Levels & Decision Logic**
-
-- Priority-based logic:
-
-  1. **Winning moves first** – If the CPU can win in one move, it plays immediately.
-
-  2. **Blocking player moves** – Prevents the opponent from winning when possible.
-
-  Otherwise,
-
-- **Easy CPU:** Selects moves randomly without considering strategy.
-
-- **Medium CPU:** Prefers center columns and attempts to build three-piece sequences to set up future wins.
-
-```tsx
-const cpuMove = (): void => {
-  let targetCol: number | null = null;
-
-  // if center bottom is available, take it
-  if (columnLevels[4] === 0) {
-    targetCol = 4;
-  } else {
-    // check for potential consecutive four pieces
-    for (let i = 1; i <= 7; i++) {
-      // first, check if CPU can win immediately
-      if (columnLevels[i] === 6) continue;
-      const targetSquareId = ((columnLevels[i] + 1) * 10 + i).toString();
-
-      if (
-        simulateRow(targetSquareId, "yellow") >= 4 ||
-        simulateColumn(targetSquareId, "yellow") >= 4 ||
-        simulateRightDiagonal(targetSquareId, "yellow") >= 4 ||
-        simulateLeftDiagonal(targetSquareId, "yellow") >= 4
-      ) {
-        targetCol = i;
-        break;
-      }
-
-      // second, block player if they can win next turn
-      if (
-        simulateRow(targetSquareId, "red") >= 4 ||
-        simulateColumn(targetSquareId, "red") >= 4 ||
-        simulateRightDiagonal(targetSquareId, "red") >= 4 ||
-        simulateLeftDiagonal(targetSquareId, "red") >= 4
-      ) {
-        targetCol = i;
-        break;
-      }
-    }
-
-    // (Medium) check for potential consecutive three pieces
-    if (opponent === "CPU_medium" && !targetCol) {
-      for (let i = 1; i <= 7; i++) {
-        if (columnLevels[i] === 6) continue;
-        const targetSquareId = ((columnLevels[i] + 1) * 10 + i).toString();
-
-        if (
-          simulateRow(targetSquareId, "yellow") === 3 ||
-          simulateColumn(targetSquareId, "yellow") === 3 ||
-          simulateRightDiagonal(targetSquareId, "yellow") === 3 ||
-          simulateLeftDiagonal(targetSquareId, "yellow") === 3
-        ) {
-          targetCol = i;
-          break;
-        }
-
-        if (
-          simulateRow(targetSquareId, "red") === 3 ||
-          simulateColumn(targetSquareId, "red") === 3 ||
-          simulateRightDiagonal(targetSquareId, "red") === 3 ||
-          simulateLeftDiagonal(targetSquareId, "red") === 3
-        ) {
-          targetCol = i;
-          break;
-        }
-      }
-    }
-
-    // (Medium) default: pick a random column but prefer center
-    if (opponent === "CPU_medium" && !targetCol) {
-      const centerdArr = [
-        1, 2, 2, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 6, 6, 7,
-      ];
-      do {
-        const index = getRandomInt(0, centerdArr.length - 1);
-        targetCol = centerdArr[index];
-      } while (columnLevels[targetCol] === 6);
-    }
-
-    // (Easy) default: pick a completely random column
-    if (!targetCol) {
-      do {
-        targetCol = getRandomInt(1, 7);
-      } while (columnLevels[targetCol] === 6);
-    }
-  }
-
-  updatePieceColors(targetCol);
-  updateLastPlacedId(targetCol);
-  updateColumnLevels(targetCol);
-  updateHasAppeared(targetCol);
-};
-
-const simulateRow = (id: string, color: Color): number => {
-  const row = parseInt(id.charAt(0));
-  let currentColumn = 1;
-  let series = 0;
-  let seriesTemp = 0;
-
-  const pieceColorsTemp: { [key: string]: Color } = { ...pieceColors };
-  pieceColorsTemp[id] = color;
-
-  while (currentColumn <= 7) {
-    const currentSquareId = `${row}${currentColumn}`;
-
-    if (pieceColorsTemp[currentSquareId] === color) {
-      seriesTemp++;
-      if (seriesTemp > series) series = seriesTemp;
-    } else {
-      seriesTemp = 0;
-    }
-
-    currentColumn++;
-  }
-
-  return series;
-};
-```
+   - Ensured that modular functions (like `rateStrength`) make extending security features easy.
 
 ### Continued development
 
-While the game is already interactive and polished, future improvements could make it even more engaging:
+As the project evolves, here are some planned improvements and enhancements:
 
-- Advanced AI Opponents – Refining the CPU movement to analyze more complex strategies.
+1. Advanced Password Strength Algorithm
 
-- Sound Effects – Integrating subtle sounds for piece drops, turn switches, and win celebrations, creating a more dynamic experience.
+   - Enhance the `rateStrength()` function with entropy-based calculations, making strength assessments more accurate.
+
+   - Include an AI-driven password evaluator that suggests stronger alternatives when weak passwords are generated.
+
+2. Additional Password Options
+
+   - Add custom character set selection, allowing users to specify exact character pools.
+
+   - Introduce an exclude similar characters feature to improve password readability (avoiding characters like 0, O, I, l, etc.).
+
+3. Accessibility & UI Enhancements
+
+   - Implement ARIA live regions for real-time feedback on password strength.
+
+4. Expanded Features
+
+   - Allow saving generated passwords securely within a local storage vault.
+
+   - Enable bulk password generation, useful for creating multiple secure passwords at once.
 
 ### Useful resources
 
-During development, I referenced various resources to improve gameplay mechanics and React architecture. Some particularly helpful sites were:
+Throughout the development of this project, the following resources were particularly helpful:
 
-- [Math is Fun – Connect Four](https://www.mathsisfun.com/games/connect4.html) - Helped me familiarize myself with Connect Four mechanics and analyze CPU movement strategies, influencing my approach to AI decision-making.
+- [Creating a Custom Range Input That’s Consistent Across Browsers](https://www.smashingmagazine.com/2021/12/create-custom-range-input-consistent-browsers/) - This article provided insights on ensuring range inputs are visually and functionally consistent across different browsers. It helped optimize the slider component for password length selection.
 
-- [Smashing Magazine – Introduction to React Context API](https://www.smashingmagazine.com/2020/01/introduction-react-context-api/) – Provided in-depth insights into React’s Context API, helping streamline global state management and improve component interaction.
+- [UIC Strong Password Guidelines](https://www.uic.edu/apps/strong-password/) - This resource helped shape the password strength evaluation logic by outlining best practices for secure passwords. It informed the design of the rateStrength() function, ensuring robust criteria for assessing complexity.
+
+These references were instrumental in refining usability, accessibility, and security within the project.
 
 ## Author
 
@@ -479,4 +241,4 @@ During development, I referenced various resources to improve gameplay mechanics
 
 ## Acknowledgments
 
-This is a solution to the [Connect Four game challenge on Frontend Mentor](https://www.frontendmentor.io/challenges/connect-four-game-6G8QVH923s). Frontend Mentor challenges help you improve your coding skills by building realistic projects.
+This is a solution to the [Password generator app challenge on Frontend Mentor](https://www.frontendmentor.io/challenges/password-generator-app-Mr8CLycqjh). Frontend Mentor challenges help you improve your coding skills by building realistic projects.
