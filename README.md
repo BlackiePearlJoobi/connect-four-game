@@ -21,8 +21,8 @@ With an intuitive interface and polished design, this version brings a modern, a
   - [What I learned](#what-i-learned)
   - [Continued development](#continued-development)
   - [Useful resources](#useful-resources)
-- [Author](#author)
 - [Acknowledgments](#acknowledgments)
+- [Author](#author)
 
 ## Overview
 
@@ -472,11 +472,11 @@ During development, I referenced various resources to improve gameplay mechanics
 
 - [Smashing Magazine – Introduction to React Context API](https://www.smashingmagazine.com/2020/01/introduction-react-context-api/) – Provided in-depth insights into React’s Context API, helping streamline global state management and improve component interaction.
 
+## Acknowledgments
+
+This is a solution to the [Connect Four game challenge on Frontend Mentor](https://www.frontendmentor.io/challenges/connect-four-game-6G8QVH923s). Frontend Mentor challenges help you improve your coding skills by building realistic projects.
+
 ## Author
 
 - Frontend Mentor - [@BlackiePearlJoobi](https://www.frontendmentor.io/profile/BlackiePearlJoobi)
 - devChallenges - [@Moonychan](https://devchallenges.io/profile/568d1c62-28c2-40d3-8772-cce03ae0c707)
-
-## Acknowledgments
-
-This is a solution to the [Connect Four game challenge on Frontend Mentor](https://www.frontendmentor.io/challenges/connect-four-game-6G8QVH923s). Frontend Mentor challenges help you improve your coding skills by building realistic projects.

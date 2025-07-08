@@ -105,12 +105,12 @@
         text-decoration: none;
         color: #d1c2ff;
 
-        &:hover {
-          color: #f0fc04;
-        }
-
         &:visited {
           color: #d693ff;
+        }
+
+        &:hover {
+          color: #f0fc04;
         }
       }
     }
