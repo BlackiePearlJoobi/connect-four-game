@@ -87,6 +87,7 @@ function App() {
               Challenge by&nbsp;
               <a
                 href="https://www.frontendmentor.io?ref=challenge"
+                target="_blank"
                 aria-label="Learn more about challenges on frontendmentor.io"
               >
                 Frontend Mentor
@@ -94,6 +95,7 @@ function App() {
               . Coded by&nbsp;
               <a
                 href="https://www.frontendmentor.io/profile/BlackiePearlJoobi"
+                target="_blank"
                 aria-label="Visit BlackiePearlJoobi's developer profile on frontendmentor.io"
               >
                 Kohta Kumazaki
