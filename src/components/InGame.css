@@ -32,9 +32,10 @@
     z-index: 2;
     position: relative;
     width: 100%;
-    padding: 0 20px;
+    padding: 0 calc((100% - 336px) / 2);
     place-items: center;
-    overflow-y: scroll;
+    overflow-y: auto;
+    overflow-x: hidden;
 
     .nav-container {
       width: 100%;
@@ -86,11 +87,11 @@
         }
 
         .icon-left {
-          left: -21px;
+          left: -23px;
         }
 
         .icon-right {
-          right: -21px;
+          right: -23px;
         }
 
         .name-score-container {
@@ -236,8 +237,8 @@
     .player-turn {
       position: relative;
       z-index: 3;
-      width: 170px;
-      height: 140px;
+      width: 180px;
+      height: 150px;
       padding: 35px 30px 16px;
       background-size: cover;
       background-repeat: no-repeat;
@@ -289,7 +290,7 @@
       position: relative;
       z-index: 3;
       width: 235px;
-      height: 135px;
+      height: 160px;
       background-color: var(--white);
       border: 3px solid var(--black);
       border-bottom: 10px solid var(--black);
@@ -298,6 +299,7 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
+      gap: 5px;
       margin: -32px auto 0;
 
       .player-name {
@@ -357,6 +359,8 @@
       padding: 0;
 
       .nav-container {
+        padding: 0 2px; /* for the foucus line to be fully visible */
+
         .nav-button-menu {
           width: 86px;
           margin-right: 22px;
@@ -378,6 +382,14 @@
 
           .player-icon {
             top: 26px;
+          }
+
+          .icon-left {
+            left: -25px;
+          }
+
+          .icon-right {
+            right: -25px;
           }
 
           .name-score-container {
