@@ -96,7 +96,7 @@ function App() {
                 href="https://www.frontendmentor.io/profile/BlackiePearlJoobi"
                 aria-label="Visit BlackiePearlJoobi's developer profile on frontendmentor.io"
               >
-                BlackiePearlJoobi
+                Kohta Kumazaki
               </a>
               .
             </div>
