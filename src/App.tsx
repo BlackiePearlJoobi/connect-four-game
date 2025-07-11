@@ -96,7 +96,7 @@ function App() {
               <a
                 href="https://www.frontendmentor.io/profile/BlackiePearlJoobi"
                 target="_blank"
-                aria-label="Visit BlackiePearlJoobi's developer profile on frontendmentor.io"
+                aria-label="Visit Kohta Kumazaki's developer profile on frontendmentor.io"
               >
                 Kohta Kumazaki
               </a>

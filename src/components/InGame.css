@@ -31,8 +31,10 @@
   .ingame-container {
     z-index: 2;
     position: relative;
-    width: 335px;
+    width: 100%;
+    padding: 0 20px;
     place-items: center;
+    overflow-y: scroll;
 
     .nav-container {
       width: 100%;
@@ -352,6 +354,7 @@
     .ingame-container {
       width: 633px;
       margin-top: 30px;
+      padding: 0;
 
       .nav-container {
         .nav-button-menu {
