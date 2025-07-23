@@ -90,31 +90,6 @@
       }
     }
   }
-
-  footer {
-    position: absolute;
-    bottom: 0;
-    padding: 1rem;
-
-    .attribution {
-      font-size: 0.875rem;
-      text-align: center;
-      margin-top: 1rem;
-
-      a {
-        text-decoration: none;
-        color: #d1c2ff;
-
-        &:visited {
-          color: #d693ff;
-        }
-
-        &:hover {
-          color: #f0fc04;
-        }
-      }
-    }
-  }
 }
 
 @media (min-width: 641px) {
@@ -130,12 +105,6 @@
       border-radius: 40px;
       padding: 70px 40px 60px;
       gap: 70px;
-    }
-
-    footer {
-      .attribution {
-        color: #1b0214;
-      }
     }
   }
 }

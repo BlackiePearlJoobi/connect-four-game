@@ -82,27 +82,6 @@ function App() {
               </button>
             </div>
           </section>
-          <footer>
-            <div className="attribution">
-              Challenge by&nbsp;
-              <a
-                href="https://www.frontendmentor.io?ref=challenge"
-                target="_blank"
-                aria-label="Learn more about challenges on frontendmentor.io"
-              >
-                Frontend Mentor
-              </a>
-              . Coded by&nbsp;
-              <a
-                href="https://www.frontendmentor.io/profile/BlackiePearlJoobi"
-                target="_blank"
-                aria-label="Visit Kohta Kumazaki's developer profile on frontendmentor.io"
-              >
-                Kohta Kumazaki
-              </a>
-              .
-            </div>
-          </footer>
         </div>
       )}
       {!isInMainMenu && <InGame></InGame>}
