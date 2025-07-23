@@ -82,6 +82,18 @@ function App() {
               </button>
             </div>
           </section>
+          <footer>
+            <p className="attribution">
+              Coded by&nbsp;
+              <a
+                href="https://github.com/BlackiePearlJoobi"
+                target="_blank"
+                aria-label="Visit Kohta Kumazaki's GitHub profile"
+              >
+                Kohta Kumazaki
+              </a>
+            </p>
+          </footer>
         </div>
       )}
       {!isInMainMenu && <InGame></InGame>}
