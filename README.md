@@ -290,6 +290,90 @@ const checkRow = (id: string): boolean => {
 };
 ```
 
+**Example: Diagonal Checks**
+
+![Screenshot - diagonal check logic](public/assets/images/diagonal-checks.jpg)
+
+```tsx
+const checkRightDiagonal = (id: string): boolean => {
+  const row = parseInt(id.charAt(0));
+  const column = parseInt(id.charAt(1));
+  if (row - column >= 3 || row - column <= -4) return false;
+  let currentRow = row - column === 2 ? 3 : row - column === 1 ? 2 : 1;
+  let currentColumn =
+    row - column >= 0
+      ? 1
+      : row - column === -1
+        ? 2
+        : row - column === -2
+          ? 3
+          : 4;
+  const targetColor: Color = isLeftTurn ? "red" : "yellow";
+  let series = 0;
+  const connectedGroup: string[] = [];
+
+  while (currentRow <= 6 && currentColumn <= 7) {
+    const currentSquareId = `${currentRow}${currentColumn}`;
+
+    if (pieceColors[currentSquareId] === targetColor) {
+      series++;
+      connectedGroup.push(currentSquareId);
+      if (series >= 4) {
+        setConnectedPieces((prev) => [...prev, ...connectedGroup]);
+        return true;
+      }
+    } else {
+      series = 0;
+      connectedGroup.length = 0;
+    }
+
+    currentRow++;
+    currentColumn++;
+  }
+
+  return false;
+};
+
+const checkLeftDiagonal = (id: string): boolean => {
+  const row = parseInt(id.charAt(0));
+  const column = parseInt(id.charAt(1));
+  if (row + column >= 11 || row + column <= 4) return false;
+  let currentRow = row + column === 10 ? 3 : row + column === 9 ? 2 : 1;
+  let currentColumn =
+    row + column === 5
+      ? 4
+      : row + column === 6
+        ? 5
+        : row + column === 7
+          ? 6
+          : 7;
+  const targetColor: Color = isLeftTurn ? "red" : "yellow";
+  let series = 0;
+  const connectedGroup: string[] = [];
+
+  while (currentRow <= 6 && currentColumn >= 1) {
+    const currentSquareId = `${currentRow}${currentColumn}`;
+
+    if (pieceColors[currentSquareId] === targetColor) {
+      series++;
+      connectedGroup.push(currentSquareId);
+      if (series >= 4) {
+        setConnectedPieces((prev) => [...prev, ...connectedGroup]);
+        return true;
+      }
+    } else {
+      series = 0;
+      connectedGroup.length = 0;
+    }
+
+    currentRow++;
+    currentColumn--;
+  }
+
+  return false;
+};
+```
+
 #### 5. React: State Management
 
 The `InGame` component manages multiple aspects of gameplay using React's `useState` hook, tracking turns, scores, board state, and animations dynamically.
