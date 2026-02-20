@@ -18,7 +18,7 @@
   }
 }
 
-.ingame-background {
+.background {
   position: fixed;
   top: 0;
   left: 0;
@@ -28,7 +28,7 @@
   background-color: var(--purple);
   justify-content: center;
 
-  .ingame-container {
+  .ingameContainer {
     z-index: 2;
     position: relative;
     width: 100%;
@@ -37,7 +37,7 @@
     overflow-y: auto;
     overflow-x: hidden;
 
-    .nav-container {
+    .navContainer {
       width: 100%;
       height: 40px;
       margin: 4% 0;
@@ -45,7 +45,7 @@
       align-items: center;
       justify-content: space-between;
 
-      .nav-button {
+      .navButton {
         width: 108px;
         height: 39px;
         border: none;
@@ -62,39 +62,39 @@
         }
       }
 
-      .ingame-logo {
+      .logo {
         width: 40px;
         height: 40px;
       }
     }
 
-    .scoreboards-container {
+    .scoreboardsContainer {
       width: 100%;
       margin-bottom: 4%;
       display: flex;
       flex-direction: row;
       justify-content: space-between;
 
-      .score-container {
+      .scoreContainer {
         height: 81px;
         position: relative;
 
-        .player-icon {
+        .playerIcon {
           position: absolute;
           width: 48px;
           height: 48px;
           top: 14px;
         }
 
-        .icon-left {
+        .iconLeft {
           left: -23px;
         }
 
-        .icon-right {
+        .iconRight {
           right: -23px;
         }
 
-        .name-score-container {
+        .nameScoreContainer {
           width: 150px;
           height: 81px;
           background-color: var(--white);
@@ -108,7 +108,7 @@
           justify-content: center;
           gap: 1.5px;
 
-          .player-name {
+          .playerName {
             font-weight: var(--font-weight-heading);
             font-size: var(--font-size-heading-xs);
             line-height: var(--line-height-heading-xs);
@@ -123,14 +123,14 @@
       }
     }
 
-    .game-board-container {
+    .gameBoardContainer {
       position: relative;
       width: 336px;
       height: 320px;
       border-radius: 20px;
       box-sizing: content-box;
 
-      .game-board-back {
+      .gameBoardBack {
         z-index: 0;
         width: 100%;
         height: 100%;
@@ -139,7 +139,7 @@
         /* visibility: hidden; */
       }
 
-      .game-board-middle {
+      .gameBoardMiddle {
         z-index: 1;
         position: absolute;
         top: 3%;
@@ -165,13 +165,13 @@
             width: 48px;
             height: 48px;
 
-            .piece-image {
+            .pieceImage {
               width: 100%;
               height: 100%;
             }
           }
 
-          .drop-animation {
+          .dropAnimation {
             animation: drop 0.2s ease-out;
           }
 
@@ -192,7 +192,7 @@
         }
       }
 
-      .game-board-front {
+      .gameBoardFront {
         /* display: none; */
         /* visibility: hidden; */
         /* outline: 1px solid orange; */
@@ -206,7 +206,7 @@
         background-repeat: no-repeat;
       }
 
-      .game-board-surface {
+      .gameBoardSurface {
         /* outline: 1px dotted pink; */
         z-index: 4;
         position: absolute;
@@ -234,7 +234,7 @@
       }
     }
 
-    .player-turn {
+    .playerTurn {
       position: relative;
       z-index: 3;
       width: 180px;
@@ -251,7 +251,7 @@
       gap: 2px;
       margin: -30px auto 0;
 
-      .current-player {
+      .currentPlayer {
         font-weight: var(--font-weight-heading);
         font-size: var(--font-size-heading-xs);
         line-height: var(--line-height-heading-xs);
@@ -276,17 +276,17 @@
       }
     }
 
-    .left-turn {
+    .leftTurn {
       background-image: url(/assets/images/turn-background-red.svg);
       color: var(--white);
     }
 
-    .right-turn {
+    .rightTurn {
       background-image: url(/assets/images/turn-background-yellow.svg);
       color: var(--black);
     }
 
-    .result-container {
+    .resultContainer {
       position: relative;
       z-index: 3;
       width: 235px;
@@ -302,7 +302,7 @@
       gap: 5px;
       margin: -32px auto 0;
 
-      .player-name {
+      .playerName {
         font-weight: var(--font-weight-heading);
         font-size: var(--font-size-heading-xs);
         line-height: var(--line-height-heading-xs);
@@ -315,7 +315,7 @@
         line-height: 3.5rem;
       }
 
-      .restart-button-result {
+      .restartButtonResult {
         font-weight: var(--font-weight-heading);
         font-size: var(--font-size-heading-xs);
         line-height: var(--line-height-heading-xs);
@@ -342,62 +342,62 @@
     border-top-right-radius: 75px;
   }
 
-  .left-wins {
+  .leftWins {
     background-color: var(--red);
   }
 
-  .right-wins {
+  .rightWins {
     background-color: var(--yellow);
   }
 }
 
 @media (min-width: 641px) {
-  .ingame-background {
-    .ingame-container {
+  .background {
+    .ingameContainer {
       width: 633px;
       margin-top: 30px;
       padding: 0;
 
-      .nav-container {
+      .navContainer {
         padding: 0 2px; /* for the foucus line to be fully visible */
 
-        .nav-button-menu {
+        .navButtonMenu {
           width: 86px;
           margin-right: 22px;
         }
 
-        .ingame-logo {
+        .logo {
           width: 52px;
           height: 52px;
         }
       }
 
-      .scoreboards-container {
+      .scoreboardsContainer {
         height: 100px;
         justify-content: center;
         gap: 40px;
 
-        .score-container {
+        .scoreContainer {
           height: 100%;
 
-          .player-icon {
+          .playerIcon {
             top: 26px;
           }
 
-          .icon-left {
+          .iconLeft {
             left: -25px;
           }
 
-          .icon-right {
+          .iconRight {
             right: -25px;
           }
 
-          .name-score-container {
+          .nameScoreContainer {
             width: 272px;
             height: 100%;
             flex-direction: row;
 
-            .player-name {
+            .playerName {
               font-weight: var(--font-weight-heading);
               font-size: var(--font-size-heading-s);
               line-height: var(--line-height-heading-s);
@@ -411,9 +411,9 @@
           }
         }
 
-        .left-score-container {
-          .name-score-container {
-            .player-name {
+        .leftScoreContainer {
+          .nameScoreContainer {
+            .playerName {
               position: absolute;
               left: 44px;
             }
@@ -425,11 +425,11 @@
           }
         }
 
-        .right-score-container {
-          .name-score-container {
+        .rightScoreContainer {
+          .nameScoreContainer {
             flex-direction: row-reverse;
 
-            .player-name {
+            .playerName {
               position: absolute;
               right: 44px;
             }
@@ -442,16 +442,16 @@
         }
       }
 
-      .game-board-container {
+      .gameBoardContainer {
         width: 632px;
         height: 600px;
 
-        .game-board-back {
+        .gameBoardBack {
           background-image: url(/assets/images/board-layer-black-large.svg);
           /* visibility: hidden; */
         }
 
-        .game-board-middle {
+        .gameBoardMiddle {
           top: 3%;
           left: 1.5%;
           width: 101%;
@@ -477,13 +477,13 @@
           }
         }
 
-        .game-board-front {
+        .gameBoardFront {
           /* visibility: hidden; */
           /* outline: 1px solid orange; */
           background-image: url(/assets/images/board-layer-white-large.svg);
         }
 
-        .game-board-surface {
+        .gameBoardSurface {
           column-gap: 9.12px;
           .column {
             .marker {
@@ -495,11 +495,11 @@
         }
       }
 
-      .player-turn {
+      .playerTurn {
         margin-top: -60px;
       }
 
-      .result-container {
+      .resultContainer {
         margin-top: -60px;
       }
     }
@@ -513,40 +513,40 @@
 }
 
 @media (min-width: 1025px) {
-  .ingame-background {
-    .ingame-container {
+  .background {
+    .ingameContainer {
       width: 1000px;
       margin-top: 50px;
 
-      .scoreboards-container {
+      .scoreboardsContainer {
         width: 100%;
         position: absolute;
         top: 296px;
         justify-content: space-between;
         gap: 0;
 
-        .score-container {
-          .player-icon {
+        .scoreContainer {
+          .playerIcon {
             width: 54px;
             height: 59px;
             top: -27px;
           }
 
-          .icon-left {
+          .iconLeft {
             left: 55px;
           }
 
-          .icon-right {
+          .iconRight {
             right: 55px;
           }
 
-          .name-score-container {
-            width: 163px;
+          .nameScoreContainer {
+            width: 165px;
             height: 187px;
             flex-direction: column;
             padding-top: 40px;
 
-            .player-name {
+            .playerName {
               position: unset;
             }
 
@@ -557,10 +557,10 @@
         }
       }
 
-      .game-board-container {
+      .gameBoardContainer {
         margin-top: 50px;
 
-        .game-board-surface {
+        .gameBoardSurface {
           .column {
             .marker {
               width: 45px;

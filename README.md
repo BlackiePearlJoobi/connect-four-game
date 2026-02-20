@@ -52,7 +52,7 @@ The goal of this project was to create a fully interactive Connect Four game wit
 ### Built with
 
 - Semantic HTML5 markup (via TSX in React)
-- Component-level CSS (custom properties, `flexbox`, animations, etc.)
+- Component-level CSS Modules (custom properties, `flexbox`, animations, etc.)
 - React (Context API, `useState`, `useEffect`, etc.)
 - Typescript
 - Vite
@@ -120,15 +120,15 @@ This project leverages CSS animations, layering techniques, and responsive styli
   }
 }
 
-.game-board-container {
+.gameBoardContainer {
   position: relative;
 
-  .game-board-back {
+  .gameBoardBack {
     z-index: 0;
     background-image: url(/assets/images/board-layer-black-small.svg);
   }
 
-  .game-board-middle {
+  .gameBoardMiddle {
     z-index: 1;
     position: absolute;
     top: 3%;
@@ -142,7 +142,7 @@ This project leverages CSS animations, layering techniques, and responsive styli
         }
       }
 
-      .drop-animation {
+      .dropAnimation {
         animation: drop 0.2s ease-out;
       }
 
@@ -158,7 +158,7 @@ This project leverages CSS animations, layering techniques, and responsive styli
     }
   }
 
-  .game-board-front {
+  .gameBoardFront {
     z-index: 2;
     position: absolute;
     top: 0;
@@ -166,7 +166,7 @@ This project leverages CSS animations, layering techniques, and responsive styli
     background-image: url(/assets/images/board-layer-white-small.svg);
   }
 
-  .game-board-surface {
+  .gameBoardSurface {
     z-index: 4;
     position: absolute;
     top: 3%;
@@ -182,15 +182,15 @@ This project leverages CSS animations, layering techniques, and responsive styli
 
 **Game Board Styling**
 
-The `.game-board-container` is structured with multiple layers:
+The `.gameBoardContainer` is structured with multiple layers:
 
-- `.game-board-back`: Represents the lowest layer, using `z-index: 0`.
+- `.gameBoardBack`: Represents the lowest layer, using `z-index: 0`.
 
-- `.game-board-middle`: Houses the individual squares and game pieces, positioned absolutely for precise placement.
+- `.gameBoardMiddle`: Houses the individual squares and game pieces, positioned absolutely for precise placement.
 
-- `.game-board-front`: The topmost visual layer, ensuring a clean and structured board appearance.
+- `.gameBoardFront`: The topmost visual layer, ensuring a clean and structured board appearance.
 
-- `.game-board-surface`: Captures user interactions, such as piece placement and hover markers.
+- `.gameBoardSurface`: Captures user interactions, such as piece placement and hover markers.
 
 **Animations & Transitions**
 
@@ -563,4 +563,3 @@ This is a solution to the [Connect Four game challenge on Frontend Mentor](https
 ## Author
 
 - Frontend Mentor - [@BlackiePearlJoobi](https://www.frontendmentor.io/profile/BlackiePearlJoobi)
-- devChallenges - [@Moonychan](https://devchallenges.io/profile/568d1c62-28c2-40d3-8772-cce03ae0c707)

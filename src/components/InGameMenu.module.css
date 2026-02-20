@@ -8,7 +8,7 @@
   overflow: auto;
   background-color: rgba(0, 0, 0, 0.5);
 
-  .modal-content {
+  .content {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -31,7 +31,7 @@
       color: var(--white);
     }
 
-    .ingame-menu-button {
+    .button {
       font-family: var(--font-primary);
       font-weight: var(--font-weight-heading);
       font-size: var(--font-size-heading-m);
@@ -51,7 +51,7 @@
       }
     }
 
-    .quit-button {
+    .quit {
       background-color: var(--red);
       color: var(--white);
     }
@@ -60,7 +60,7 @@
 
 @media (min-width: 641px) {
   .modal {
-    .modal-content {
+    .content {
       width: 480px;
     }
   }

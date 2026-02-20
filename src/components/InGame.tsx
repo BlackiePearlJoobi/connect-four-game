@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useGameContext } from "../GameContext";
-import "./InGame.css";
+import styles from "./InGame.module.css";
 import InGameMenu from "./InGameMenu";
 
 const InGame = () => {
@@ -70,12 +70,15 @@ const InGame = () => {
   const Piece = ({ id, color }: PieceProps) => {
     return color === "blank" ? null : (
       <div
-        className={`piece ${id === lastPlacedId && !hasAppeared[id] && "drop-animation"}`}
+        className={[
+          styles.piece,
+          id === lastPlacedId && !hasAppeared[id] ? styles.dropAnimation : "",
+        ].join(" ")}
         color={color}
       >
         <img
           src={`${basePath}/assets/images/counter-${color}-small.svg`}
-          className="piece-image"
+          className={styles.pieceImage}
         />
       </div>
     );
@@ -604,11 +607,11 @@ const InGame = () => {
   const basePath = import.meta.env.BASE_URL;
 
   return (
-    <div className="ingame-background">
-      <section className="ingame-container">
-        <nav className="nav-container">
+    <div className={styles.background}>
+      <section className={styles.ingameContainer}>
+        <nav className={styles.navContainer}>
           <button
-            className="nav-button nav-button-menu"
+            className={`${styles.navButton} ${styles.navButtonMenu}`}
             onClick={() => {
               setIsPaused(true);
               setIsTimerRunning(false);
@@ -619,65 +622,69 @@ const InGame = () => {
           <img
             src={`${basePath}/assets/images/logo.svg`}
             alt="Game logo"
-            className="ingame-logo"
+            className={styles.logo}
           />
-          <button className="nav-button" onClick={restartGame}>
+          <button className={styles.navButton} onClick={restartGame}>
             RESTART
           </button>
         </nav>
-        <div className="scoreboards-container">
-          <div className="score-container left-score-container">
+        <div className={styles.scoreboardsContainer}>
+          <div
+            className={`${styles.scoreContainer} ${styles.leftScoreContainer}`}
+          >
             <img
               src={`${basePath}/assets/images/${opponent !== "human" ? "you.svg" : "player-one.svg"}`}
               alt={`${opponent !== "human" ? "your icon" : "player 1 icon"}`}
-              className="player-icon icon-left"
+              className={`${styles.playerIcon} ${styles.iconLeft}`}
             />
-            <div className="name-score-container">
-              <span className="player-name">
+            <div className={styles.nameScoreContainer}>
+              <span className={styles.playerName}>
                 {opponent !== "human" ? "YOU" : "PLAYER 1"}
               </span>
-              <span className="score">{leftScore}</span>
+              <span className={styles.score}>{leftScore}</span>
             </div>
           </div>
-          <div className="score-container right-score-container">
-            <div className="name-score-container">
-              <span className="player-name">
+          <div
+            className={`${styles.scoreContainer} ${styles.rightScoreContainer}`}
+          >
+            <div className={styles.nameScoreContainer}>
+              <span className={styles.playerName}>
                 {opponent !== "human" ? "CPU" : "PLAYER 2"}
               </span>
-              <span className="score">{rightScore}</span>
+              <span className={styles.score}>{rightScore}</span>
             </div>
             <img
               src={`${basePath}/assets/images/${opponent !== "human" ? "cpu.svg" : "player-two.svg"}`}
               alt={`${opponent !== "human" ? "CPU icon" : "player 2 icon"}`}
-              className="player-icon icon-right"
+              className={`${styles.playerIcon} ${styles.iconRight}`}
             />
           </div>
         </div>
-        <div className="game-board-container">
-          <div className="game-board-back"></div>
-          <div className="game-board-middle">
+        <div className={styles.gameBoardContainer}>
+          <div className={styles.gameBoardBack}></div>
+          <div className={styles.gameBoardMiddle}>
             {[...Array(42)].map((_, i) => {
               const row: number = 6 - Math.floor(i / 7);
               const col: number = (i % 7) + 1;
               const id: string = (row * 10 + col).toString();
 
               return (
-                <div id={id} className="square" key={id}>
+                <div id={id} className={styles.square} key={id}>
                   <Piece color={pieceColors[id] || "blank"} id={id}></Piece>
                   {connectedPieces.includes(id) && (
-                    <div className="circle"></div>
+                    <div className={styles.circle}></div>
                   )}
                 </div>
               );
             })}
           </div>
-          <div className="game-board-front"></div>
-          <div className="game-board-surface">
+          <div className={styles.gameBoardFront}></div>
+          <div className={styles.gameBoardSurface}>
             {[...Array(7)].map((_, i) => {
               const col = i + 1;
               return (
                 <div
-                  className="column"
+                  className={styles.column}
                   id={col.toString()}
                   key={col.toString()}
                   tabIndex={0}
@@ -711,7 +718,7 @@ const InGame = () => {
                   {isHovered[col] && !hasLeftWon && !hasRightWon && !isDraw && (
                     <img
                       src={`${basePath}/assets/images/marker-${isLeftTurn ? "red" : "yellow"}.svg`}
-                      className="marker"
+                      className={styles.marker}
                     ></img>
                   )}
                 </div>
@@ -721,9 +728,9 @@ const InGame = () => {
         </div>
         {!isDraw && !hasLeftWon && !hasRightWon ? (
           <div
-            className={`player-turn ${isLeftTurn ? "left-turn" : "right-turn"}`}
+            className={`${styles.playerTurn} ${isLeftTurn ? styles.leftTurn : styles.rightTurn}`}
           >
-            <span className="current-player">
+            <span className={styles.currentPlayer}>
               {opponent !== "human" && isLeftTurn
                 ? "YOUR"
                 : opponent !== "human" && !isLeftTurn
@@ -734,14 +741,14 @@ const InGame = () => {
               TURN
             </span>
             <span
-              className={`timer ${timer <= 5 && "yellow"} ${timer <= 3 && "red"} `}
+              className={`${styles.timer} ${timer <= 5 && styles.yellow} ${timer <= 3 && styles.red} `}
             >
               {timer}s
             </span>
           </div>
         ) : (
-          <div className="result-container">
-            <span className="player-name">
+          <div className={styles.resultContainer}>
+            <span className={styles.playerName}>
               {isDraw
                 ? ""
                 : opponent !== "human" && hasLeftWon
@@ -752,21 +759,24 @@ const InGame = () => {
                       ? "PLAYER 1"
                       : "PLAYER 2"}
             </span>
-            <span className="result">
+            <span className={styles.result}>
               {isDraw
                 ? "DRAW"
                 : opponent !== "human" && hasLeftWon
                   ? "WIN"
                   : "WINS"}
             </span>
-            <button className="restart-button-result" onClick={playNextGame}>
+            <button
+              className={styles.restartButtonResult}
+              onClick={playNextGame}
+            >
               PLAY AGAIN
             </button>
           </div>
         )}
       </section>
       <div
-        className={`underlay ${hasLeftWon && "left-wins"} ${hasRightWon && "right-wins"}`}
+        className={`${styles.underlay} ${hasLeftWon && styles.leftWins} ${hasRightWon && styles.rightWins}`}
       ></div>
       {isPaused && (
         <InGameMenu
