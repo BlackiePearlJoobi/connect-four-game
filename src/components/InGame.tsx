@@ -303,7 +303,7 @@ const InGame = () => {
         () => setTimer((prevTimer) => prevTimer - 1),
         1000,
       );
-      return () => clearInterval(clock);
+      return () => clearInterval(clock); // ensures only one interval exists at any time (Otherwise intervals would accumulate)
     }
 
     if (timer === 0) {
